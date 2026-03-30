@@ -28,7 +28,7 @@ interface NavItem {
 }
 
 const navItems: NavItem[] = [
-  { label: "Home", path: "/home" },
+  { label: "Home", path: "/" },
   { label: "Products", path: "/products" },
   { label: "Check Key", path: "/check-key" },
   {
@@ -154,7 +154,7 @@ export function PublicNavbar() {
         }`}
       >
         <nav className="max-w-7xl mx-auto flex items-center justify-between px-4 sm:px-6 h-16">
-          <Link href="/home" className="flex items-center gap-2 group">
+          <Link href="/" className="flex items-center gap-2 group">
             <div className="w-8 h-8 rounded-lg bg-primary flex items-center justify-center group-hover:shadow-glow transition-shadow">
               <KeyRound className="w-4 h-4 text-primary-foreground" />
             </div>
