@@ -1,6 +1,5 @@
 import { Metadata } from "next";
 import { HeroSection } from "@/components/public/HeroSection";
-// ... (rest is the same)
 import { PublicNavbar } from "@/components/public/PublicNavbar";
 import { PublicFooter } from "@/components/public/PublicFooter";
 import { TrustedBySection } from "@/components/public/TrustedBySection";
