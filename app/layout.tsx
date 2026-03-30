@@ -15,7 +15,8 @@ export default function RootLayout({
   children: React.ReactNode
 }) {
   return (
-    <html lang="en" className={cn("antialiased", GeistSans.variable, GeistMono.variable)}>
+    // Add "dark" to the className string here
+    <html lang="en" className={cn("dark antialiased", GeistSans.variable, GeistMono.variable)}>
       <body className="min-h-screen bg-background font-sans">
         {children}
       </body>
