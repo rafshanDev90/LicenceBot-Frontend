@@ -1,0 +1,7 @@
+.antigravity/
+node_modules/
+package-lock.json
+.next/
+.env
+.env.local
+dist/
