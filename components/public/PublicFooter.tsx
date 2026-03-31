@@ -60,19 +60,19 @@ export function PublicFooter() {
   };
 
   return (
-    <footer className="border-t border-border bg-card">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 py-10 sm:py-16">
+    <footer className="py-[50px] px-0 pb-[30px]" style={{ backgroundColor: '#0d131c', color: '#fff' }}>
+      <div className="max-w-7xl mx-auto px-4 sm:px-6">
         <div className="grid grid-cols-2 md:grid-cols-5 gap-8">
           <div className="col-span-2 md:col-span-1">
             <Link href="/home" className="flex items-center gap-2 mb-4">
               <div className="w-8 h-8 rounded-lg bg-primary flex items-center justify-center">
                 <KeyRound className="w-4 h-4 text-primary-foreground" />
               </div>
-              <span className="text-lg font-bold text-foreground tracking-tight">
-                Licence<span className="text-primary">Bot</span>
+              <span className="text-lg font-bold tracking-tight" style={{ color: '#fff' }}>
+                Licence<span style={{ color: 'hsl(var(--primary))' }}>Bot</span>
               </span>
             </Link>
-            <p className="text-sm text-muted-foreground leading-relaxed mb-4">
+            <p className="text-sm leading-relaxed mb-4" style={{ color: '#fff' }}>
               Automated licence key delivery for WooCommerce & Shopify stores.
             </p>
             <div className="flex items-center gap-2 flex-wrap">
@@ -82,10 +82,10 @@ export function PublicFooter() {
                   href={href}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="w-9 h-9 rounded-lg bg-muted hover:bg-primary/10 flex items-center justify-center transition-colors group"
+                  className="w-9 h-9 rounded-lg hover:bg-white/10 flex items-center justify-center transition-colors group"
                   aria-label={label}
                 >
-                  <Icon className="w-4 h-4 text-muted-foreground group-hover:text-primary transition-colors" />
+                  <Icon className="w-4 h-4 group-hover:text-primary transition-colors" />
                 </a>
               ))}
             </div>
@@ -93,13 +93,13 @@ export function PublicFooter() {
 
           {Object.entries(footerLinks).map(([title, links]) => (
             <div key={title}>
-              <h4 className="text-sm font-semibold text-foreground mb-4">{title}</h4>
+              <h4 className="text-sm font-semibold mb-4" style={{ color: '#fff' }}>{title}</h4>
               <ul className="space-y-2.5">
                 {links.map((link) => (
                   <li key={link.label}>
                     <Link
                       href={link.path}
-                      className="text-sm text-muted-foreground hover:text-foreground transition-colors"
+                      className="text-sm hover:opacity-80 transition-opacity"
                     >
                       {link.label}
                     </Link>
@@ -110,22 +110,23 @@ export function PublicFooter() {
           ))}
         </div>
 
-        <div className="mt-12 pt-8 border-t border-border">
-          <div className="bg-gradient-to-r from-primary/5 to-info/5 border border-primary/10 rounded-2xl p-6 flex flex-col md:flex-row items-center justify-between gap-4">
+        <div className="mt-12 pt-8 border-t" style={{ borderColor: 'rgba(255, 255, 255, 0.1)' }}>
+          <div className="rounded-2xl p-6 flex flex-col md:flex-row items-center justify-between gap-4" style={{ background: 'rgba(255, 255, 255, 0.05)', border: '1px solid rgba(255, 255, 255, 0.1)' }}>
             <div>
-              <p className="font-semibold text-foreground">Stay up to date</p>
-              <p className="text-sm text-muted-foreground mt-1">
+              <p className="font-semibold">Stay up to date</p>
+              <p className="text-sm mt-1" style={{ color: '#fff' }}>
                 Subscribe for product updates, tips, and exclusive offers.
               </p>
             </div>
             <div className="flex gap-2 w-full md:w-auto">
               <input
                 type="email"
-                placeholder="your@email.com"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
                 onKeyDown={(e) => e.key === "Enter" && handleSubscribe()}
-                className="px-4 py-2.5 rounded-lg border border-input bg-background text-sm w-full md:w-64 focus:outline-none focus:ring-2 focus:ring-ring"
+                className="px-4 py-2.5 rounded-lg text-sm w-full md:w-64 focus:outline-none focus:ring-2 focus:ring-ring placeholder:text-white/60" 
+                style={{ background: 'rgba(255, 255, 255, 0.1)', border: '1px solid rgba(255, 255, 255, 0.2)', color: '#fff' }}
+                placeholder="your@email.com"
               />
               <button
                 onClick={handleSubscribe}
@@ -137,13 +138,13 @@ export function PublicFooter() {
           </div>
         </div>
 
-        <div className="mt-8 pt-6 border-t border-border flex flex-col sm:flex-row items-center justify-between gap-2">
-          <p className="text-xs text-muted-foreground">
+        <div className="mt-8 pt-6 flex flex-col sm:flex-row items-center justify-between gap-2" style={{ borderTop: '1px solid rgba(255, 255, 255, 0.1)' }}>
+          <p className="text-xs" style={{ color: '#fff' }}>
             © {new Date().getFullYear()} LicenceBot. All rights reserved.
           </p>
           <div className="flex items-center gap-4">
-            <Link href="/terms" className="text-xs text-muted-foreground hover:text-foreground transition-colors">Terms</Link>
-            <Link href="/privacy" className="text-xs text-muted-foreground hover:text-foreground transition-colors">Privacy</Link>
+            <Link href="/terms" className="text-xs hover:opacity-80 transition-opacity">Terms</Link>
+            <Link href="/privacy" className="text-xs hover:opacity-80 transition-opacity">Privacy</Link>
           </div>
         </div>
       </div>
