@@ -17,5 +17,5 @@ jobs:
           key: ${{ secrets.SSH_PRIVATE_KEY }}
           script: |
             cd /var/www/licencebot2/LicenceBot-Frontend-2.0
-            chmod +x deploy.sh
+            
             ./deploy.sh
