@@ -1,5 +1,5 @@
 import { create } from 'zustand';
-import { persist } from 'zustand/middleware';
+import { persist, createJSONStorage } from 'zustand/middleware';
 import type { CartItem, CartState, CheckoutData } from './cart-types';
 import { calculateCartTotal, calculateCartItemsCount } from './cart-types';
 
@@ -154,6 +154,13 @@ export const useCartStore = create<CartStore>()(
         items: state.items,
         checkoutData: state.checkoutData,
       }),
+      storage: createJSONStorage(() => 
+        typeof window !== 'undefined' ? localStorage : {
+          getItem: () => null,
+          setItem: () => {},
+          removeItem: () => {},
+        }
+      ),
     }
   )
 );

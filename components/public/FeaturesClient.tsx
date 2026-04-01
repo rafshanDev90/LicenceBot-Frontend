@@ -153,13 +153,15 @@ export function FeaturesClient() {
   const [activeCategory, setActiveCategory] = useState("all");
 
   useEffect(() => {
-    const hash = window.location.hash;
-    if (hash) {
-      const id = hash.replace("#", "");
-      setTimeout(() => {
-        const el = document.getElementById(id);
-        if (el) el.scrollIntoView({ behavior: "smooth", block: "start" });
-      }, 300);
+    if (typeof window !== 'undefined') {
+      const hash = window.location.hash;
+      if (hash) {
+        const id = hash.replace("#", "");
+        setTimeout(() => {
+          const el = document.getElementById(id);
+          if (el) el.scrollIntoView({ behavior: "smooth", block: "start" });
+        }, 300);
+      }
     }
   }, []);
 

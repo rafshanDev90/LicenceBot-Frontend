@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect } from "react";
+import { useRouter } from "next/navigation";
 import { motion } from "framer-motion";
 import { AlertTriangle, RefreshCw, ArrowLeft, Home } from "lucide-react";
 import { Button } from "@/components/ui/button";
@@ -12,6 +13,8 @@ export default function Error({
   error: Error & { digest?: string };
   reset: () => void;
 }) {
+  const router = useRouter();
+
   useEffect(() => {
     console.error("[RouteError]", error);
   }, [error]);
@@ -98,7 +101,7 @@ export default function Error({
               Go Back
             </Button>
             <Button
-              onClick={() => (window.location.href = "/")}
+              onClick={() => router.push("/")}
               variant="ghost"
               size="lg"
               className="w-full sm:w-auto h-12 px-8 font-bold text-xs uppercase tracking-widest gap-2 text-muted-foreground hover:text-foreground"
