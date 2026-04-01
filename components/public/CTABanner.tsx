@@ -25,23 +25,14 @@ export function CTABanner() {
             <p className="mt-4 text-lg text-primary-foreground/80 max-w-xl mx-auto">
               Analytics, SEO, email marketing, live chat, key checker, and automated delivery — try it all free for 14 days.
             </p>
-            <div className="mt-8 flex flex-col sm:flex-row items-center justify-center gap-4">
-              <Button
-                size="lg"
-                className="px-8 h-12 bg-background text-foreground hover:bg-background/90"
-                asChild
-              >
-                <Link href="/auth">
-                  Start Free Trial <ArrowRight className="w-4 h-4 ml-1" />
+            <div className="flex flex-col sm:flex-row items-center justify-center gap-4 mt-10">
+              <Button size="lg" className="h-14 px-10 rounded-2xl font-bold bg-primary hover:bg-primary/90 text-primary-foreground shadow-2xl hover:scale-105 transition-all w-full sm:w-auto" asChild>
+                <Link href="https://app.licencebot.com/auth">
+                  Get Started for Free <ArrowRight className="w-5 h-5 ml-2" />
                 </Link>
               </Button>
-              <Button
-                size="lg"
-                variant="outline"
-                className="px-8 h-12 border-primary-foreground/30 text-primary-foreground hover:bg-primary-foreground/10"
-                asChild
-              >
-                <Link href="/contact">Contact Sales</Link>
+              <Button size="lg" variant="outline" className="h-14 px-10 rounded-2xl font-bold border-white/20 bg-white/5 backdrop-blur-xl text-white hover:bg-white/10 transition-all w-full sm:w-auto" asChild>
+                <Link href="/contact">Book a Demo</Link>
               </Button>
             </div>
           </div>

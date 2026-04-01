@@ -284,8 +284,10 @@ export function DemoClient() {
               Sign up for a free account and get full access to the dashboard with a 14-day trial. No credit card required.
             </p>
             <div className="flex flex-wrap justify-center gap-4">
-              <Button size="lg" className="h-12 px-10 gap-2 text-xs font-bold uppercase tracking-widest shadow-glow shadow-primary/20" asChild>
-                <Link href="/auth">Start Free Trial <ArrowRight className="w-4 h-4 ml-2" /></Link>
+              <Button size="lg" className="h-14 px-10 rounded-2xl font-bold bg-primary hover:bg-primary/90 text-primary-foreground shadow-2xl hover:scale-105 transition-all w-full sm:w-auto" asChild>
+                <Link href="https://app.licencebot.com/auth">
+                  Start Free Trial <ArrowRight className="w-5 h-5 ml-2" />
+                </Link>
               </Button>
               <Button size="lg" variant="outline" className="h-12 px-8 text-xs font-bold uppercase tracking-widest hover:bg-primary/5 hover:text-primary border-border/50" asChild>
                 <Link href="/contact">Contact Sales</Link>

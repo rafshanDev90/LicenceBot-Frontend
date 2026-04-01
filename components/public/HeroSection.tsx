@@ -171,9 +171,9 @@ export function HeroSection() {
           </AnimatePresence>
 
           <div className="mt-10 flex flex-col sm:flex-row items-center justify-center gap-4">
-            <Button size="lg" className="px-8 h-12 text-base" asChild>
-              <Link href="/auth">
-                Start Free Trial <ArrowRight className="w-4 h-4 ml-1" />
+            <Button size="lg" className="h-14 px-8 rounded-xl font-bold bg-primary hover:bg-primary/90 shadow-glow hover:scale-105 transition-all w-full sm:w-auto" asChild>
+              <Link href="https://app.licencebot.com/auth">
+                Start for Free <ArrowRight className="w-5 h-5 ml-2" />
               </Link>
             </Button>
             <Button size="lg" variant="outline" className="px-8 h-12 text-base" asChild>

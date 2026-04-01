@@ -1,0 +1,80 @@
+export const mockProducts = [
+  {
+    id: "1",
+    name: "Windows 11 Professional (Retail Key)",
+    price: "19.99",
+    regular_price: "199.99",
+    sale_price: "19.99",
+    stock_status: "instock",
+    categories: ["Operating Systems"],
+    images: ["https://images.unsplash.com/photo-1633419461186-7d40a38105ec?w=500&q=80"],
+    short_description: "Genuine retail licence key for Windows 11 Professional. Instant delivery.",
+    rating: { score: 4.8, count: 1245 },
+    features: ["Lifetime license", "Instant digital delivery", "24/7 Support"]
+  },
+  {
+    id: "2",
+    name: "Office 2021 Professional Plus",
+    price: "24.99",
+    regular_price: "249.99",
+    sale_price: "24.99",
+    stock_status: "instock",
+    categories: ["Office Suites"],
+    images: ["https://images.unsplash.com/photo-1606137452372-1b1563f45c20?w=500&q=80"],
+    short_description: "Full suite of Office 2021 applications for 1 PC. Bind to Microsoft account.",
+    rating: { score: 4.9, count: 3102 },
+    features: ["Word, Excel, PowerPoint", "One-time purchase", "Bind to Account"]
+  },
+  {
+    id: "3",
+    name: "Windows Server 2022 Standard",
+    price: "49.99",
+    regular_price: "499.00",
+    sale_price: "49.99",
+    stock_status: "instock",
+    categories: ["Server Solutions"],
+    images: ["https://images.unsplash.com/photo-1558494949-ef010cbdcc31?w=500&q=80"],
+    short_description: "Advanced multi-layer security, hybrid capabilities with Azure, and a flexible application platform.",
+    rating: { score: 4.7, count: 856 },
+    features: ["16-Core License", "CALs required separately", "Enterprise grade"]
+  },
+  {
+    id: "4",
+    name: "Antivirus Total Security 2024",
+    price: "15.00",
+    regular_price: "59.99",
+    sale_price: "15.00",
+    stock_status: "instock",
+    categories: ["Security"],
+    images: ["https://images.unsplash.com/photo-1563206767-5b18f218e8de?w=500&q=80"],
+    short_description: "1 Year, 3 Devices. Total protection against zero-day threats, ransomware, and spyware.",
+    rating: { score: 4.6, count: 432 },
+    features: ["Real-time defense", "VPN Included", "3 Devices / 1 Year"]
+  },
+  {
+    id: "5",
+    name: "Adobe Creative Cloud All Apps - 1 Month",
+    price: "29.99",
+    regular_price: "54.99",
+    sale_price: "29.99",
+    stock_status: "instock",
+    categories: ["Creative"],
+    images: ["https://images.unsplash.com/photo-1555679427-1f6dfcce943b?w=500&q=80"],
+    short_description: "1 month prepaid code for Adobe Creative Cloud All Apps.",
+    rating: { score: 4.5, count: 211 },
+    features: ["Photoshop, Illustrator, Premiere", "100GB Cloud Storage", "Instant activation"]
+  },
+  {
+    id: "6",
+    name: "Windows 10 Home (OEM Key)",
+    price: "12.99",
+    regular_price: "139.00",
+    sale_price: "12.99",
+    stock_status: "outofstock",
+    categories: ["Operating Systems"],
+    images: ["https://images.unsplash.com/photo-1587612049655-c1030366a74a?w=500&q=80"],
+    short_description: "Original OEM key for system builders. Cannot be transferred to a new motherboard.",
+    rating: { score: 4.4, count: 3220 },
+    features: ["OEM License", "Instant delivery", "System Builders"]
+  }
+];

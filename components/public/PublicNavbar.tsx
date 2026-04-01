@@ -338,10 +338,10 @@ export function PublicNavbar() {
 
           <div className="hidden lg:flex items-center gap-3">
             <Button variant="ghost" size="sm" asChild>
-              <Link href="/auth">Login</Link>
+              <Link href="https://app.licencebot.com/auth">Login</Link>
             </Button>
-            <Button size="sm" asChild>
-              <Link href="/auth">Start Free Trial</Link>
+            <Button className="h-10 px-6 rounded-xl font-bold glass-effect-primary shadow-glow hover:scale-105 transition-all" asChild>
+              <Link href="https://app.licencebot.com/auth">Start Free Trial</Link>
             </Button>
           </div>
 
@@ -440,10 +440,10 @@ export function PublicNavbar() {
                 })}
                 <div className="pt-3 flex flex-col gap-2">
                   <Button variant="outline" size="sm" asChild>
-                    <Link href="/auth">Login</Link>
+                    <Link href="https://app.licencebot.com/auth">Login</Link>
                   </Button>
-                  <Button size="sm" asChild>
-                    <Link href="/auth">Start Free Trial</Link>
+                  <Button className="w-full h-12 rounded-xl font-bold glass-effect-primary shadow-glow" asChild>
+                    <Link href="https://app.licencebot.com/auth">Start Free Trial</Link>
                   </Button>
                 </div>
               </div>

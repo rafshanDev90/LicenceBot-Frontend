@@ -190,7 +190,7 @@ export function PricingClient() {
                 variant={plan.popular ? "default" : "outline"}
                 asChild
               >
-                <Link href={plan.cta === "Contact Sales" ? "/contact" : "/auth"}>{plan.cta}</Link>
+                <Link href={plan.cta === "Contact Sales" ? "/contact" : "https://app.licencebot.com/auth"}>{plan.cta}</Link>
               </Button>
             </motion.div>
           ))}
