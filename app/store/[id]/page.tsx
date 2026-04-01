@@ -1,11 +1,15 @@
+"use client";
+
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import Link from "next/link";
+import { useState } from "react";
 import { PublicNavbar } from "@/components/public/PublicNavbar";
 import { PublicFooter } from "@/components/public/PublicFooter";
 import { mockProducts } from "@/lib/store-data";
 import { ArrowLeft, CheckCircle, ShieldCheck, Zap, KeyRound, Star, ShoppingCart, CreditCard } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { useCartStore } from "@/lib/cart-store";
 
 export function generateMetadata({ params }: { params: { id: string } }): Metadata {
   const product = mockProducts.find(p => p.id === params.id);
@@ -25,6 +29,10 @@ export function generateStaticParams() {
 
 export default function ProductDetailPage({ params }: { params: { id: string } }) {
   const product = mockProducts.find((p) => p.id === params.id);
+  const [quantity, setQuantity] = useState(1);
+  const [isAddingToCart, setIsAddingToCart] = useState(false);
+  
+  const { addItem, isInCart, openCart } = useCartStore();
 
   if (!product) {
     notFound();
@@ -32,6 +40,44 @@ export default function ProductDetailPage({ params }: { params: { id: string } }
 
   const discount = Math.round(((Number(product.regular_price) - Number(product.sale_price)) / Number(product.regular_price)) * 100);
   const inStock = product.stock_status === "instock";
+  const itemInCart = isInCart(product.id);
+
+  const handleAddToCart = async () => {
+    if (!inStock) return;
+    
+    setIsAddingToCart(true);
+    
+    // Simulate API call
+    await new Promise(resolve => setTimeout(resolve, 500));
+    
+    addItem({
+      productId: product.id,
+      name: product.name,
+      shortDescription: product.short_description,
+      imageUrl: product.images[0],
+      regularPrice: Number(product.regular_price),
+      salePrice: Number(product.sale_price),
+      quantity,
+      productType: product.categories[0],
+      licenseType: "Digital",
+      stockCount: product.stock_status === "instock" ? 100 : 0, // Mock stock count
+    });
+    
+    setIsAddingToCart(false);
+    openCart(); // Open cart drawer after adding
+  };
+
+  const handleBuyNow = async () => {
+    if (!inStock) return;
+    
+    // Add to cart first, then proceed to checkout
+    if (!itemInCart) {
+      await handleAddToCart();
+    }
+    
+    // Redirect to checkout
+    window.location.href = '/checkout/shipping';
+  };
 
   return (
     <main className="relative min-h-screen bg-background overflow-hidden flex flex-col">
@@ -119,15 +165,29 @@ export default function ProductDetailPage({ params }: { params: { id: string } }
                 </div>
 
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-                  <Button size="lg" className="h-14 rounded-xl text-base font-bold shadow-lg" asChild>
-                    <Link href="https://app.licencebot.com/auth">
-                      <CreditCard className="w-5 h-5 mr-2" /> Buy Now
-                    </Link>
+                  <Button 
+                    size="lg" 
+                    className="h-14 rounded-xl text-base font-bold shadow-lg" 
+                    onClick={handleBuyNow}
+                    disabled={!inStock}
+                  >
+                    <CreditCard className="w-5 h-5 mr-2" /> Buy Now
                   </Button>
-                  <Button size="lg" variant="outline" className="h-14 rounded-xl text-base font-bold" asChild>
-                    <Link href="https://app.licencebot.com/auth">
-                      <ShoppingCart className="w-5 h-5 mr-2" /> Add to Cart
-                    </Link>
+                  <Button 
+                    size="lg" 
+                    variant="outline" 
+                    className="h-14 rounded-xl text-base font-bold" 
+                    onClick={handleAddToCart}
+                    disabled={!inStock || isAddingToCart}
+                  >
+                    {isAddingToCart ? (
+                      "Adding..."
+                    ) : (
+                      <>
+                        <ShoppingCart className="w-5 h-5 mr-2" /> 
+                        {itemInCart ? "Update Cart" : "Add to Cart"}
+                      </>
+                    )}
                   </Button>
                 </div>
               </div>

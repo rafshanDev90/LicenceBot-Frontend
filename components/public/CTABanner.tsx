@@ -32,7 +32,7 @@ export function CTABanner() {
                 </Link>
               </Button>
               <Button size="lg" variant="outline" className="h-14 px-10 rounded-2xl font-bold border-white/20 bg-white/5 backdrop-blur-xl text-white hover:bg-white/10 transition-all w-full sm:w-auto" asChild>
-                <Link href="/contact">Book a Demo</Link>
+                <Link href="/contact">Contact Sales</Link>
               </Button>
             </div>
           </div>
