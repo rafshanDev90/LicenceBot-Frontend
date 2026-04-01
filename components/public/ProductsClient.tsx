@@ -7,6 +7,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Search, Package, ShoppingCart, Tag } from "lucide-react";
 import Link from "next/link";
+import { useCartStore } from "@/lib/cart-store";
 
 interface LicenseProduct {
   id: string;
@@ -54,8 +55,11 @@ const mockProducts: LicenseProduct[] = [
 
 export function ProductsClient() {
   const [search, setSearch] = useState("");
+  const [addingToCart, setAddingToCart] = useState<string | null>(null);
+  
   // Using static mock data since Supabase SSR isn't fully configured
   const products = mockProducts;
+  const { addItem, isInCart, openCart } = useCartStore();
 
   const filtered = products.filter((p) =>
     p.name.toLowerCase().includes(search.toLowerCase())
@@ -64,6 +68,29 @@ export function ProductsClient() {
   const getDiscount = (regular: number | null, sale: number | null) => {
     if (!regular || !sale || sale >= regular) return null;
     return Math.round(((regular - sale) / regular) * 100);
+  };
+
+  const handleAddToCart = async (product: LicenseProduct) => {
+    setAddingToCart(product.id);
+    
+    // Simulate API call
+    await new Promise(resolve => setTimeout(resolve, 500));
+    
+    addItem({
+      productId: product.id,
+      name: product.name,
+      shortDescription: product.short_description,
+      imageUrl: product.image_url,
+      regularPrice: product.regular_price,
+      salePrice: product.sale_price,
+      quantity: 1,
+      productType: product.product_type,
+      licenseType: product.license_type,
+      stockCount: product.stock_count,
+    });
+    
+    setAddingToCart(null);
+    openCart(); // Open cart drawer after adding
   };
 
   return (
@@ -176,24 +203,40 @@ export function ProductsClient() {
                       )}
                     </div>
 
-                    <Button 
-                      size="sm" 
-                      className={`w-full ${inStock ? "" : "opacity-50 grayscale"}`}
-                      disabled={!inStock} 
-                      asChild={inStock}
-                    >
-                      {inStock ? (
-                        <Link href={`/store/${product.id}`}>
-                          <ShoppingCart className="w-4 h-4 mr-2" />
-                          View Details
-                        </Link>
-                      ) : (
-                        <span>
-                          <ShoppingCart className="w-4 h-4 mr-2" />
-                          Sold Out
-                        </span>
-                      )}
-                    </Button>
+                    <div className="flex gap-2">
+                      <Button 
+                        size="sm" 
+                        className={`flex-1 ${inStock ? "" : "opacity-50 grayscale"}`}
+                        disabled={!inStock || addingToCart === product.id}
+                        onClick={() => handleAddToCart(product)}
+                      >
+                        {addingToCart === product.id ? (
+                          "Adding..."
+                        ) : (
+                          <>
+                            <ShoppingCart className="w-4 h-4 mr-2" />
+                            {isInCart(product.id) ? "In Cart" : "Add to Cart"}
+                          </>
+                        )}
+                      </Button>
+                      <Button 
+                        size="sm" 
+                        variant="outline"
+                        className={`flex-1 ${inStock ? "" : "opacity-50 grayscale"}`}
+                        disabled={!inStock} 
+                        asChild={inStock}
+                      >
+                        {inStock ? (
+                          <Link href={`/store/${product.id}`}>
+                            View Details
+                          </Link>
+                        ) : (
+                          <span>
+                            Sold Out
+                          </span>
+                        )}
+                      </Button>
+                    </div>
                   </CardContent>
                 </Card>
               );

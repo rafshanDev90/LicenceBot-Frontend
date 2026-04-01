@@ -72,7 +72,7 @@ export function PublicFooter() {
                 Licence<span style={{ color: 'hsl(var(--primary))' }}>Bot</span>
               </span>
             </Link>
-            <p className="text-sm leading-relaxed mb-4" style={{ color: '#fff' }}>
+            <p className="text-sm leading-relaxed mb-4" style={{ color: '#94a3b8' }}>
               Automated licence key delivery for WooCommerce & Shopify stores.
             </p>
             <div className="flex items-center gap-2 flex-wrap">
@@ -99,7 +99,7 @@ export function PublicFooter() {
                   <li key={link.label}>
                     <Link
                       href={link.path}
-                      className="text-sm hover:opacity-80 transition-opacity"
+                      className="text-sm text-slate-400 hover:text-white transition-colors"
                     >
                       {link.label}
                     </Link>

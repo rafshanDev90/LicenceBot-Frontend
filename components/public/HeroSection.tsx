@@ -114,44 +114,41 @@ export function HeroSection() {
 
   return (
     <section
-      className="relative overflow-hidden"
+      className="relative overflow-hidden bg-background"
       onMouseEnter={() => setIsPaused(true)}
       onMouseLeave={() => setIsPaused(false)}
     >
-      <div className="absolute inset-0 -z-10">
-        <div className="absolute top-0 left-1/4 w-96 h-96 bg-primary/20 rounded-full blur-3xl" />
-        <div className="absolute bottom-0 right-1/4 w-96 h-96 bg-info/15 rounded-full blur-3xl" />
-        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-primary/5 rounded-full blur-3xl" />
-      </div>
+      {/* Background elements removed or neutralized for a professional dark look */}
+      <div className="absolute inset-0 -z-10 bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-slate-900 via-background to-background" />
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 pt-12 pb-10 md:pt-32 md:pb-24">
         <div className="text-center max-w-4xl mx-auto">
           <AnimatePresence mode="wait">
             <motion.div
               key={current}
-              initial={{ opacity: 0, y: 30 }}
+              initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0, y: -20 }}
-              transition={{ duration: 0.5, ease: "easeOut" }}
+              transition={{ duration: 0.4, ease: "easeOut" }}
             >
               <div className="flex flex-wrap items-center justify-center gap-3 mb-8">
-                <span className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full text-xs font-medium bg-primary/10 text-primary border border-primary/20">
-                  <BadgeIcon className="w-3.5 h-3.5" />
+                <span className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full text-xs font-medium bg-muted border border-border text-foreground">
+                  <BadgeIcon className="w-3.5 h-3.5 text-primary" />
                   {slide.badge}
                 </span>
                 {current === 0 && (
                   <>
-                    <span className="px-3 py-1 rounded-full text-xs font-medium bg-success/10 text-success border border-success/20">
+                    <span className="px-3 py-1 rounded-full text-xs font-medium bg-secondary/50 text-secondary-foreground border border-border">
                       No setup fees
                     </span>
-                    <span className="px-3 py-1 rounded-full text-xs font-medium bg-info/10 text-info border border-info/20">
+                    <span className="px-3 py-1 rounded-full text-xs font-medium bg-secondary/50 text-secondary-foreground border border-border">
                       14-day free trial
                     </span>
                   </>
                 )}
               </div>
 
-              <h1 className="text-3xl sm:text-4xl md:text-6xl lg:text-7xl font-bold tracking-tight text-foreground leading-[1.1]">
+              <h1 className="text-4xl md:text-6xl lg:text-7xl font-extrabold tracking-tight text-foreground leading-[1.1]">
                 {slide.headline}
               </h1>
 
@@ -159,11 +156,11 @@ export function HeroSection() {
                 {slide.subtitle}
               </p>
 
-              <div className="mt-8 flex flex-wrap items-center justify-center gap-6 md:gap-10">
+              <div className="mt-8 flex flex-wrap items-center justify-center gap-8 md:gap-12">
                 {slide.stats.map((s) => (
                   <div key={s.label} className="text-center">
-                    <p className="text-2xl md:text-3xl font-bold text-primary">{s.value}</p>
-                    <p className="text-xs text-muted-foreground mt-1">{s.label}</p>
+                    <p className="text-2xl md:text-3xl font-bold text-foreground">{s.value}</p>
+                    <p className="text-[10px] uppercase tracking-widest text-muted-foreground font-semibold mt-1">{s.label}</p>
                   </div>
                 ))}
               </div>
@@ -171,22 +168,23 @@ export function HeroSection() {
           </AnimatePresence>
 
           <div className="mt-10 flex flex-col sm:flex-row items-center justify-center gap-4">
-            <Button size="lg" className="h-14 px-8 rounded-xl font-bold bg-primary hover:bg-primary/90 shadow-glow hover:scale-105 transition-all w-full sm:w-auto" asChild>
+            <Button size="lg" className="h-14 px-8 rounded-xl font-bold bg-primary hover:bg-primary/90 text-primary-foreground shadow-lg transition-all w-full sm:w-auto" asChild>
               <Link href="https://app.licencebot.com/auth">
                 Start for Free <ArrowRight className="w-5 h-5 ml-2" />
               </Link>
             </Button>
-            <Button size="lg" variant="outline" className="px-8 h-12 text-base" asChild>
+            <Button size="lg" variant="outline" className="px-8 h-14 rounded-xl border-border hover:bg-muted text-base" asChild>
               <Link href="/demo">
-                <Play className="w-4 h-4 mr-1" /> Try Demo
+                <Play className="w-4 h-4 mr-2 fill-current" /> Try Demo
               </Link>
             </Button>
           </div>
 
-          <div className="mt-8 flex items-center justify-center gap-4">
+          {/* Slider Pagination Controls */}
+          <div className="mt-10 flex items-center justify-center gap-4">
             <button
               onClick={prev}
-              className="p-2 rounded-full bg-muted/50 hover:bg-muted text-muted-foreground hover:text-foreground transition-colors"
+              className="p-2 rounded-full border border-border hover:bg-muted transition-colors"
               aria-label="Previous slide"
             >
               <ChevronLeft className="w-4 h-4" />
@@ -196,10 +194,8 @@ export function HeroSection() {
                 <button
                   key={i}
                   onClick={() => setCurrent(i)}
-                  className={`h-2 rounded-full transition-all duration-300 ${
-                    i === current
-                      ? "w-8 bg-primary"
-                      : "w-2 bg-muted-foreground/30 hover:bg-muted-foreground/50"
+                  className={`h-1.5 rounded-full transition-all duration-300 ${
+                    i === current ? "w-8 bg-primary" : "w-2 bg-muted-foreground/30"
                   }`}
                   aria-label={`Go to slide ${i + 1}`}
                 />
@@ -207,7 +203,7 @@ export function HeroSection() {
             </div>
             <button
               onClick={next}
-              className="p-2 rounded-full bg-muted/50 hover:bg-muted text-muted-foreground hover:text-foreground transition-colors"
+              className="p-2 rounded-full border border-border hover:bg-muted transition-colors"
               aria-label="Next slide"
             >
               <ChevronRight className="w-4 h-4" />
@@ -215,42 +211,33 @@ export function HeroSection() {
           </div>
         </div>
 
+        {/* Demo Section Card */}
         <motion.div
           initial={{ opacity: 0, y: 40 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8, delay: 0.5 }}
-          className="mt-20 max-w-4xl mx-auto"
+          transition={{ duration: 0.8, delay: 0.3 }}
+          className="mt-20 max-w-5xl mx-auto"
         >
-          <div className="relative group">
-            <div className="absolute -inset-1 bg-gradient-to-r from-primary/20 via-info/20 to-primary/20 rounded-2xl blur-xl opacity-60 group-hover:opacity-80 transition-opacity" />
+          <div className="relative">
+            {/* Subtle border glow only for the card */}
+            <div className="absolute -inset-[1px] bg-gradient-to-b from-border to-transparent rounded-2xl -z-10" />
 
-            <div className="relative bg-card border border-border rounded-2xl overflow-hidden shadow-xl">
-              <div className="bg-muted/50 border-b border-border px-4 py-3 flex items-center gap-2">
+            <div className="relative bg-card/50 backdrop-blur-sm border border-border rounded-2xl overflow-hidden shadow-2xl">
+              <div className="bg-muted/30 border-b border-border px-4 py-3 flex items-center gap-2">
                 <div className="flex gap-1.5">
-                  <div className="w-3 h-3 rounded-full bg-destructive/60" />
-                  <div className="w-3 h-3 rounded-full bg-warning/60" />
-                  <div className="w-3 h-3 rounded-full bg-success/60" />
+                  <div className="w-3 h-3 rounded-full bg-red-500/20 border border-red-500/40" />
+                  <div className="w-3 h-3 rounded-full bg-amber-500/20 border border-amber-500/40" />
+                  <div className="w-3 h-3 rounded-full bg-emerald-500/20 border border-emerald-500/40" />
                 </div>
                 <div className="flex-1 flex justify-center">
-                  <div className="px-4 py-1 rounded-md bg-background/60 text-xs text-muted-foreground">
-                    How Auto License Delivery Works
+                  <div className="px-4 py-1 rounded-md bg-background/40 border border-border/50 text-[10px] uppercase tracking-wider text-muted-foreground">
+                    Workflow Visualization
                   </div>
                 </div>
               </div>
 
-              <div className="p-4 sm:p-6 md:p-10 bg-gradient-to-br from-background to-muted/30">
-                <div className="flex items-center justify-between mb-8">
-                  <h3 className="text-sm font-semibold text-foreground uppercase tracking-wider">Live Delivery Demo</h3>
-                  <div className="flex items-center gap-2">
-                    <span className="relative flex h-2.5 w-2.5">
-                      <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-success opacity-75" />
-                      <span className="relative inline-flex rounded-full h-2.5 w-2.5 bg-success" />
-                    </span>
-                    <span className="text-xs text-success font-medium">Processing</span>
-                  </div>
-                </div>
-
-                <div className="grid grid-cols-1 sm:grid-cols-4 gap-4">
+              <div className="p-6 md:p-12">
+                <div className="grid grid-cols-1 sm:grid-cols-4 gap-6">
                   {demoSteps.map((step, i) => {
                     const isActive = activeStep > i;
                     const isCurrent = activeStep === i;
@@ -258,53 +245,33 @@ export function HeroSection() {
                     return (
                       <div key={step.id} className="relative">
                         <motion.div
-                          animate={{
-                            scale: isCurrent ? 1.05 : 1,
-                            borderColor: isActive
-                              ? "hsl(var(--primary))"
-                              : isCurrent
-                              ? "hsl(var(--info))"
-                              : "hsl(var(--border))",
-                          }}
-                          transition={{ duration: 0.4 }}
-                          className={`relative rounded-xl border-2 p-4 md:p-5 text-center transition-all duration-300 ${
+                          className={`relative rounded-xl border-2 p-5 text-center transition-all duration-500 ${
                             isActive
-                              ? "bg-primary/5 border-primary shadow-md"
+                              ? "bg-primary/5 border-primary/40 shadow-sm"
                               : isCurrent
-                              ? "bg-info/5 border-info shadow-lg"
-                              : "bg-muted/30 border-border"
+                              ? "bg-primary/10 border-primary shadow-[0_0_15px_rgba(var(--primary),0.1)]"
+                              : "bg-background border-border"
                           }`}
                         >
                           <div
-                            className={`w-10 h-10 rounded-full mx-auto mb-3 flex items-center justify-center transition-colors duration-300 ${
-                              isActive ? "bg-primary/20" : isCurrent ? "bg-info/20" : "bg-muted"
+                            className={`w-12 h-12 rounded-full mx-auto mb-3 flex items-center justify-center transition-colors duration-500 ${
+                              isActive || isCurrent ? "bg-primary text-primary-foreground" : "bg-muted text-muted-foreground"
                             }`}
                           >
                             {isActive ? (
-                              <CheckCircle className="w-5 h-5 text-primary" />
+                              <CheckCircle className="w-6 h-6" />
                             ) : (
-                              <StepIcon className={`w-5 h-5 ${isCurrent ? "text-info" : "text-muted-foreground"}`} />
+                              <StepIcon className="w-6 h-6" />
                             )}
                           </div>
-                          <p
-                            className={`text-xs md:text-sm font-medium ${
-                              isActive ? "text-primary" : isCurrent ? "text-info" : "text-muted-foreground"
-                            }`}
-                          >
+                          <p className={`text-xs font-bold uppercase tracking-tight ${isActive || isCurrent ? "text-foreground" : "text-muted-foreground"}`}>
                             {step.label}
                           </p>
-                          <div
-                            className={`absolute -top-2 -right-2 w-5 h-5 rounded-full text-[10px] font-bold flex items-center justify-center ${
-                              isActive ? "bg-primary text-primary-foreground" : "bg-muted text-muted-foreground"
-                            }`}
-                          >
-                            {step.id}
-                          </div>
                         </motion.div>
 
                         {i < demoSteps.length - 1 && (
-                          <div className="hidden sm:flex absolute top-1/2 -right-3 -translate-y-1/2 z-10">
-                            <Send className={`w-4 h-4 transition-colors duration-300 ${isActive ? "text-primary" : "text-border"}`} />
+                          <div className="hidden sm:flex absolute top-1/2 -right-4 -translate-y-1/2 z-10 opacity-30">
+                            <ArrowRight className="w-4 h-4" />
                           </div>
                         )}
                       </div>
@@ -315,61 +282,19 @@ export function HeroSection() {
                 <AnimatePresence>
                   {activeStep >= demoSteps.length && (
                     <motion.div
-                      initial={{ opacity: 0, y: 10 }}
-                      animate={{ opacity: 1, y: 0 }}
-                      exit={{ opacity: 0 }}
-                      className="mt-6 flex items-center justify-center gap-3 p-4 rounded-xl bg-success/10 border border-success/20"
+                      initial={{ opacity: 0, scale: 0.95 }}
+                      animate={{ opacity: 1, scale: 1 }}
+                      className="mt-8 p-4 rounded-xl bg-emerald-500/5 border border-emerald-500/20 flex items-center justify-center gap-3"
                     >
-                      <CheckCircle className="w-5 h-5 text-success" />
-                      <span className="text-sm font-semibold text-success">
-                        License key delivered to customer@email.com in 2.4 seconds
+                      <div className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
+                      <span className="text-sm font-medium text-emerald-500">
+                        Success: License key delivered to customer in 2.4s
                       </span>
                     </motion.div>
                   )}
                 </AnimatePresence>
-
-                <div className="mt-8 grid grid-cols-3 gap-4">
-                  {[
-                    { label: "Keys Delivered", value: "850K+", color: "text-primary" },
-                    { label: "Avg Delivery", value: "<3 seconds", color: "text-success" },
-                    { label: "Uptime", value: "99.9%", color: "text-info" },
-                  ].map((s) => (
-                    <div key={s.label} className="text-center">
-                      <p className={`text-xl md:text-2xl font-bold ${s.color}`}>{s.value}</p>
-                      <p className="text-xs text-muted-foreground mt-1">{s.label}</p>
-                    </div>
-                  ))}
-                </div>
               </div>
             </div>
-
-            <motion.div
-              initial={{ opacity: 0, x: -20 }}
-              animate={{ opacity: 1, x: 0 }}
-              transition={{ delay: 1, duration: 0.5 }}
-              className="absolute -left-4 top-1/4 hidden lg:flex items-center gap-2 px-3 py-2 rounded-lg bg-card border border-border shadow-lg"
-            >
-              <Shield className="w-4 h-4 text-success" />
-              <span className="text-xs font-medium text-foreground">99.9% Uptime</span>
-            </motion.div>
-            <motion.div
-              initial={{ opacity: 0, x: 20 }}
-              animate={{ opacity: 1, x: 0 }}
-              transition={{ delay: 1.2, duration: 0.5 }}
-              className="absolute -right-4 top-1/3 hidden lg:flex items-center gap-2 px-3 py-2 rounded-lg bg-card border border-border shadow-lg"
-            >
-              <Clock className="w-4 h-4 text-info" />
-              <span className="text-xs font-medium text-foreground">Instant Delivery</span>
-            </motion.div>
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 1.4, duration: 0.5 }}
-              className="absolute -bottom-4 left-1/2 -translate-x-1/2 hidden lg:flex items-center gap-2 px-3 py-2 rounded-lg bg-card border border-border shadow-lg"
-            >
-              <Zap className="w-4 h-4 text-warning" />
-              <span className="text-xs font-medium text-foreground">Zero Manual Work</span>
-            </motion.div>
           </div>
         </motion.div>
       </div>

@@ -102,7 +102,7 @@ export function CheckKeyClient() {
   };
 
   const tabConfig = [
-    { value: "pidms", label: "Windows / Office", icon: KeyRound, description: "Check product keys — activation status, remaining count & details" },
+    { value: "pidms", label: "PIDMS", icon: KeyRound, description: "Check product keys — activation status, remaining count & details" },
     { value: "cid", label: "Get CID", icon: Hash, description: "Get Confirmation ID (CID) from Installation ID (IID) for offline activation" },
     { value: "cidredeem", label: "Redeem CID", icon: RefreshCw, description: "Redeem and validate product keys via CID redemption service" },
     { value: "office365", label: "Office 365", icon: Mail, description: "Check Microsoft Office 365 account status and subscription details" },

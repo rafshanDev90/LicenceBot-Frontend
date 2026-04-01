@@ -23,12 +23,12 @@ const features = [
 
 const renderCell = (value: boolean | string) => {
   if (typeof value === "string") {
-    return <span className="text-sm font-semibold text-foreground">{value}</span>;
+    return <span className="text-xs font-medium text-foreground">{value}</span>;
   }
   return value ? (
-    <Check className="w-5 h-5 text-primary mx-auto drop-shadow-[0_0_8px_rgba(0,255,223,0.5)]" />
+    <Check className="w-4 h-4 text-primary mx-auto drop-shadow-[0_0_6px_rgba(0,255,223,0.4)]" />
   ) : (
-    <Minus className="w-4 h-4 text-muted-foreground/30 mx-auto" />
+    <Minus className="w-3.5 h-3.5 text-muted-foreground/20 mx-auto" />
   );
 };
 
@@ -40,24 +40,24 @@ export function PricingComparisonTable() {
       viewport={{ once: true }}
       className="overflow-x-auto custom-scrollbar"
     >
-      <table className="w-full min-w-[760px] border-collapse">
+      <table className="w-full min-w-[580px] border-collapse">
         <thead>
-          <tr className="border-b border-border bg-muted/30">
-            <th className="text-left py-6 px-6 text-sm font-bold uppercase tracking-wider text-muted-foreground">Feature</th>
-            <th className="text-center py-6 px-6 text-sm font-bold uppercase tracking-wider text-muted-foreground">Basic</th>
-            <th className="text-center py-6 px-6 text-sm font-bold uppercase tracking-wider text-muted-foreground">Standard</th>
-            <th className="text-center py-6 px-6 text-sm font-bold uppercase tracking-wider text-primary bg-primary/5">Pro</th>
-            <th className="text-center py-6 px-6 text-sm font-bold uppercase tracking-wider text-muted-foreground">Enterprise</th>
+          <tr className="border-b border-border bg-muted/20">
+            <th className="text-left py-2.5 px-3 text-xs font-semibold uppercase tracking-wider text-muted-foreground w-[35%]">Feature</th>
+            <th className="text-center py-2.5 px-2 text-xs font-semibold uppercase tracking-wider text-muted-foreground w-[16%]">Basic</th>
+            <th className="text-center py-2.5 px-2 text-xs font-semibold uppercase tracking-wider text-muted-foreground w-[16%]">Standard</th>
+            <th className="text-center py-2.5 px-2 text-xs font-semibold uppercase tracking-wider text-primary bg-primary/5 w-[16%]">Pro</th>
+            <th className="text-center py-2.5 px-2 text-xs font-semibold uppercase tracking-wider text-muted-foreground w-[17%]">Enterprise</th>
           </tr>
         </thead>
         <tbody>
           {features.map((feature, i) => (
-            <tr key={feature.name} className={`border-b border-border/50 transition-colors hover:bg-primary/5 group`}>
-              <td className="py-4 px-6 text-sm font-medium text-foreground group-hover:text-primary transition-colors">{feature.name}</td>
-              <td className="py-4 px-6 text-center">{renderCell(feature.basic)}</td>
-              <td className="py-4 px-6 text-center">{renderCell(feature.standard)}</td>
-              <td className="py-4 px-6 text-center bg-primary/5 font-bold">{renderCell(feature.pro)}</td>
-              <td className="py-4 px-6 text-center">{renderCell(feature.enterprise)}</td>
+            <tr key={feature.name} className={`border-b border-border/30 transition-colors hover:bg-muted/10 group`}>
+              <td className="py-2.5 px-3 text-xs font-medium text-foreground group-hover:text-primary transition-colors">{feature.name}</td>
+              <td className="py-2.5 px-2 text-center">{renderCell(feature.basic)}</td>
+              <td className="py-2.5 px-2 text-center">{renderCell(feature.standard)}</td>
+              <td className="py-2.5 px-2 text-center bg-primary/5">{renderCell(feature.pro)}</td>
+              <td className="py-2.5 px-2 text-center">{renderCell(feature.enterprise)}</td>
             </tr>
           ))}
         </tbody>
