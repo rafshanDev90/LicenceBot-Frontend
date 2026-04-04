@@ -125,7 +125,7 @@ export function PublicNavbar() {
             exit={{ height: 0, opacity: 0 }}
             className="fixed top-0 left-0 right-0 z-[60] bg-primary text-primary-foreground overflow-hidden"
           >
-            <div className="max-w-7xl mx-auto px-4 sm:px-6 py-2 flex items-center justify-between gap-2">
+            <div className="container flex items-center justify-between gap-2 py-2">
               <div className="flex items-center gap-2 text-xs sm:text-sm min-w-0">
                 <span className="font-semibold shrink-0">New:</span>
                 <span className="truncate">Multi-store marketplace routing is now available!</span>
@@ -153,7 +153,7 @@ export function PublicNavbar() {
             : "bg-transparent"
         }`}
       >
-        <nav className="max-w-7xl mx-auto flex items-center justify-between px-4 sm:px-6 h-16">
+        <nav className="container flex items-center justify-between h-16">
           <Link href="/" className="flex items-center gap-2 group">
             <div className="w-8 h-8 rounded-lg bg-primary flex items-center justify-center group-hover:shadow-glow transition-shadow">
               <KeyRound className="w-4 h-4 text-primary-foreground" />
@@ -194,7 +194,7 @@ export function PublicNavbar() {
                           onMouseEnter={() => handleMouseEnter(item.label)}
                           onMouseLeave={handleMouseLeave}
                         >
-                          <div className="max-w-7xl mx-auto px-4 sm:px-6 pt-3">
+                          <div className="container pt-3">
                             <div className="rounded-2xl border border-border bg-card shadow-2xl ring-1 ring-border/5 overflow-hidden">
                               <div className="grid grid-cols-3 divide-x divide-border">
                                 {item.columns.map((col) => (

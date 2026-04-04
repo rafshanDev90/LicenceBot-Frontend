@@ -4,7 +4,9 @@ import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { 
   BarChart3, ShoppingBag, Key, Search, MessageSquare, Mail, 
-  CheckCircle2 
+  CheckCircle2, Globe, Wrench, Users, Target, MousePointer2,
+  MailQuestion, Zap, ShieldCheck, Database, Layout, Layers, Users2,
+  Lock, TrendingUp, Sparkles, MessageCircle
 } from "lucide-react";
 import { Card, CardContent } from "@/components/ui/card";
 import { cn } from "@/lib/utils";
@@ -22,8 +24,8 @@ const modules = [
     id: "analytics",
     icon: BarChart3,
     title: "Complete Analytics",
-    tagline: "Real-time insights into every visitor and conversion",
-    desc: "Track visitors, sessions, page views, and conversions with real-time dashboards. Understand your audience with geo breakdowns, device stats, funnel tracking, retention cohorts, and RFM segmentation.",
+    tagline: "Real-time insights into every visitor",
+    desc: "Track visitors, sessions, and conversions with real-time dashboards. Understand your audience with geo breakdowns, funnel tracking, and RFM segmentation.",
     features: [
       "Real-time traffic monitoring",
       "Conversion funnels & cohorts",
@@ -36,20 +38,20 @@ const modules = [
     stats: [
       { value: "50+", label: "Metrics" },
       { value: "Real-time", label: "Updates" },
-      { value: "6", label: "Export formats" },
+      { value: "6", label: "Formats" },
     ],
   },
   {
     id: "woocommerce",
     icon: ShoppingBag,
     title: "WooCommerce Hub",
-    tagline: "Complete multi-store order and product management",
-    desc: "Full multi-store management from a single dashboard. Sync orders, products, customers, coupons, and refunds in real-time. Recover abandoned carts and track store performance across all connected stores.",
+    tagline: "Multi-store order & product sync",
+    desc: "Full multi-store management from a single dashboard. Sync orders, products, and customers. Recover abandoned carts and track store performance.",
     features: [
       "Multi-store management",
       "Order & product sync",
       "Customer profiles & history",
-      "Coupon tracking & management",
+      "Coupon tracking",
       "Abandoned cart recovery",
       "Refund processing",
     ],
@@ -59,17 +61,17 @@ const modules = [
       { value: "Real-time", label: "Sync" },
       { value: "100%", label: "Coverage" },
     ],
-    reverse: true, // This matches the screenshot where stats are on the left
+    reverse: true,
   },
   {
     id: "licence",
     icon: Key,
     title: "Licence Inventory",
-    tagline: "Automated key management and delivery",
-    desc: "Manage your entire digital key inventory with pool assignments, stock alerts, and automatic delivery routing per SKU. Upload keys in bulk, track stock levels, and let automation handle the rest.",
+    tagline: "Automated key management",
+    desc: "Manage digital key inventory with pool assignments and stock alerts. Upload keys in bulk and let automation handle delivery per SKU.",
     features: [
       "Key pool management",
-      "Auto-assign to products",
+      "Auto-assign products",
       "Stock level alerts",
       "Bulk CSV upload",
       "Delivery audit trail",
@@ -78,22 +80,22 @@ const modules = [
     category: "commerce",
     stats: [
       { value: "<3s", label: "Delivery" },
-      { value: "AES-256", label: "Encryption" },
+      { value: "AES-256", label: "Security" },
       { value: "99.9%", label: "Success" },
     ],
   },
   {
-    id: "seo",
+    id: "seo-rankings",
     icon: Search,
     title: "SEO & Rankings",
     tagline: "Daily keyword tracking and AI-powered insights",
     desc: "Monitor your keyword rankings daily across all search engines. Run comprehensive site audits, analyze competitors, track backlinks, and get AI-generated strategic recommendations to improve your visibility.",
     features: [
       "Daily position tracking",
-      "AI SERP analysis",
       "Competitor monitoring",
-      "Site audits & speed tests",
       "Backlink analysis",
+      "AI SERP analysis",
+      "Site audits & speed tests",
       "Schema markup validation",
     ],
     category: "analytics",
@@ -102,11 +104,54 @@ const modules = [
       { value: "AI", label: "Insights" },
       { value: "18+", label: "Tools" },
     ],
+    color: "purple"
+  },
+  {
+    id: "seo",
+    icon: Globe,
+    title: "Google Search Console",
+    tagline: "Full GSC integration",
+    desc: "Connect your GSC data directly. View performance metrics, index coverage, core web vitals, and crawl stats without leaving the dashboard.",
+    features: [
+      "Performance analytics",
+      "Core web vitals",
+      "Security & manual actions",
+      "Index coverage reports",
+      "Crawl stats & errors",
+      "Sitemap management",
+    ],
+    category: "analytics",
+    stats: [
+      { value: "Live", label: "Data" },
+      { value: "All", label: "Properties" },
+      { value: "Auto", label: "Sync" },
+    ],
     reverse: true,
   },
   {
+    id: "seo-tools",
+    icon: Wrench,
+    title: "18+ SEO Tools",
+    tagline: "Technical SEO toolkit",
+    desc: "Robots.txt validator, XML sitemap generator, schema builder, and many more tools for technical SEO optimization and analysis.",
+    features: [
+      "Robots.txt validator",
+      "Schema JSON-LD builder",
+      ".htaccess tester",
+      "Sitemap generator",
+      "Hreflang checker",
+      "Meta tag analyzer",
+    ],
+    category: "tools",
+    stats: [
+      { value: "18+", label: "Tools" },
+      { value: "Free", label: "Access" },
+      { value: "Instant", label: "Results" },
+    ],
+  },
+  {
     id: "support",
-    icon: MessageSquare,
+    icon: MessageCircle,
     title: "Support & Live Chat",
     tagline: "Omnichannel customer support platform",
     desc: "Manage support across live chat, email, Telegram, and WhatsApp from one unified inbox. Use AI-powered summaries, sentiment analysis, SLA tracking, and canned responses to deliver exceptional support.",
@@ -124,13 +169,15 @@ const modules = [
       { value: "AI", label: "Summaries" },
       { value: "SLA", label: "Tracking" },
     ],
+    reverse: true,
+    color: "emerald"
   },
   {
     id: "mail",
     icon: Mail,
     title: "Mail Client",
-    tagline: "Full-featured email inbox built right in",
-    desc: "A complete multi-account email client integrated into your dashboard. Custom signatures, smart filters, thread management, and email analytics — no need for a separate email app.",
+    tagline: "Integrated multi-account inbox",
+    desc: "A complete email client integrated into your dashboard. Custom signatures, smart filters, and thread management in one place.",
     features: [
       "Multi-account inbox",
       "Custom signatures",
@@ -145,8 +192,143 @@ const modules = [
       { value: "IMAP", label: "Protocol" },
       { value: "Smart", label: "Filters" },
     ],
-    reverse: true,
   },
+  {
+    id: "email-marketing",
+    icon: MailQuestion,
+    title: "Email Marketing",
+    tagline: "Automations & segmentation",
+    desc: "Build automated sequences and send targeted broadcasts. Segment your audience by engagement level and purchase frequency.",
+    features: [
+      "Automation workflows",
+      "Drag-and-drop designer",
+      "Open & click tracking",
+      "Broadcast campaigns",
+      "Audience segmentation",
+      "A/B testing",
+    ],
+    category: "communication",
+    stats: [
+      { value: "∞", label: "Subscribers" },
+      { value: "Drag", label: "Designer" },
+      { value: "A/B", label: "Testing" },
+    ],
+    reverse: true,
+    color: "purple"
+  },
+  {
+    id: "merchant-leads",
+    icon: Target,
+    title: "Merchant Leads",
+    tagline: "Lead discovery and pipeline",
+    desc: "Discover potential merchant leads with engagement scoring and pipeline tracking. Automate follow-ups to increase conversion rates.",
+    features: [
+      "Lead discovery engine",
+      "Outreach tracking",
+      "Lead analytics",
+      "Engagement scoring",
+      "Pipeline management",
+      "Auto follow-ups",
+    ],
+    category: "commerce",
+    stats: [
+      { value: "Smart", label: "Scoring" },
+      { value: "Pipeline", label: "Tracking" },
+      { value: "Auto", label: "Follow-up" },
+    ],
+    color: "emerald"
+  },
+  {
+    id: "key-checker",
+    icon: ShieldCheck,
+    title: "Key Checker",
+    tagline: "Validate keys instantly",
+    desc: "Validate licence keys, retrieve CIDs, and redeem Microsoft keys. Essential automated tools for digital key merchants.",
+    features: [
+      "Key validation",
+      "Microsoft redemption",
+      "API management",
+      "CID retrieval",
+      "Office 365 checks",
+      "Bulk validation",
+    ],
+    category: "tools",
+    stats: [
+      { value: "5+", label: "Checkers" },
+      { value: "Bulk", label: "Support" },
+      { value: "API", label: "Access" },
+    ],
+    reverse: true,
+    color: "orange"
+  },
+  {
+    id: "affiliate",
+    icon: Users2,
+    title: "Affiliate Program",
+    tagline: "Referral & payout management",
+    desc: "Launch your own affiliate program with custom rates, referral tracking, performance dashboards, and automated payouts.",
+    features: [
+      "Referral link generation",
+      "Payout management",
+      "Custom terms & rates",
+      "Commission tracking",
+      "Performance dashboards",
+      "Cookie attribution",
+    ],
+    category: "commerce",
+    stats: [
+      { value: "Custom", label: "Rates" },
+      { value: "Auto", label: "Payouts" },
+      { value: "30-day", label: "Cookie" },
+    ],
+    color: "blue"
+  },
+  {
+    id: "multi-store",
+    icon: Layers,
+    title: "Multi-Store Management",
+    tagline: "Unified store control",
+    desc: "Connect unlimited WooCommerce and Shopify stores. Switch between stores instantly and manage operations from one central hub.",
+    features: [
+      "Unlimited connections",
+      "Cross-store analytics",
+      "Team access controls",
+      "Unified dashboard view",
+      "Per-store settings",
+      "Performance comparison",
+    ],
+    category: "commerce",
+    stats: [
+      { value: "∞", label: "Stores" },
+      { value: "Unified", label: "Dashboard" },
+      { value: "RBAC", label: "Access" },
+    ],
+    reverse: true,
+    color: "emerald"
+  },
+];
+
+const whyChooseUs = [
+  {
+    title: "All-in-One Platform",
+    icon: Zap,
+    desc: "Analytics, SEO, email, licensing, and 18+ tools in one place."
+  },
+  {
+    title: "Enterprise Security",
+    icon: Lock,
+    desc: "Role-based access, encrypted storage, and full audit trails."
+  },
+  {
+    title: "Built for Scale",
+    icon: TrendingUp,
+    desc: "Multi-store support for solo merchants to enterprise teams."
+  },
+  {
+    title: "AI-Powered",
+    icon: Sparkles,
+    desc: "AI insights, sentiment analysis, and smart recommendations."
+  }
 ];
 
 export function FeaturesClient() {
@@ -169,17 +351,64 @@ export function FeaturesClient() {
     ? modules
     : modules.filter((m) => m.category === activeCategory);
 
+  const getColorClasses = (mod: any) => {
+    if (mod.color) return mod.color;
+    if (mod.id === "seo-tools") return "pink";
+    if (mod.id === "email-marketing") return "purple";
+    if (mod.id === "key-checker") return "orange";
+    return "emerald";
+  };
+
+  const colorMap: Record<string, any> = {
+    emerald: {
+      bg: "bg-emerald-500/10",
+      text: "text-emerald-400",
+      border: "border-emerald-500/20",
+      tagline: "text-emerald-400/80",
+      icon: "text-emerald-500"
+    },
+    pink: {
+      bg: "bg-pink-500/10",
+      text: "text-pink-400",
+      border: "border-pink-500/20",
+      tagline: "text-pink-400/80",
+      icon: "text-pink-500"
+    },
+    purple: {
+      bg: "bg-purple-500/10",
+      text: "text-purple-400",
+      border: "border-purple-500/20",
+      tagline: "text-purple-400/80",
+      icon: "text-purple-500"
+    },
+    orange: {
+      bg: "bg-orange-500/10",
+      text: "text-orange-400",
+      border: "border-orange-500/20",
+      tagline: "text-orange-400/80",
+      icon: "text-orange-500"
+    },
+    blue: {
+      bg: "bg-blue-500/10",
+      text: "text-blue-400",
+      border: "border-blue-500/20",
+      tagline: "text-blue-400/80",
+      icon: "text-blue-500"
+    }
+  };
+
   return (
     <section className="py-12 md:py-20 bg-[#020617] text-white">
-      <div className="max-w-6xl mx-auto px-4 sm:px-6">
-        {/* Category Filters */}
-        <div className="flex flex-wrap justify-center gap-2 mb-16">
+      <div className="container">
+        
+        {/* Category Tabs */}
+        <div className="flex flex-wrap justify-center gap-2 mb-12">
           {categories.map((cat) => (
             <button
               key={cat.key}
               onClick={() => setActiveCategory(cat.key)}
               className={cn(
-                "px-6 py-2 rounded-full text-sm font-medium transition-all duration-300 border",
+                "px-5 py-1.5 rounded-full text-sm font-medium transition-all duration-300 border",
                 activeCategory === cat.key
                   ? "bg-emerald-500/10 text-emerald-400 border-emerald-500/50 shadow-[0_0_15px_rgba(16,185,129,0.2)]"
                   : "bg-slate-900/50 text-slate-400 border-slate-800 hover:border-slate-700 hover:text-slate-200"
@@ -190,69 +419,111 @@ export function FeaturesClient() {
           ))}
         </div>
 
-        {/* Feature Sections */}
-        <div className="space-y-8">
+        {/* Feature Modules */}
+        <div className="space-y-6">
           <AnimatePresence mode="popLayout">
-            {filtered.map((mod) => (
-              <motion.div
-                key={mod.id}
-                id={mod.id}
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                exit={{ opacity: 0, scale: 0.98 }}
-                transition={{ duration: 0.4 }}
-                className="scroll-mt-32"
-              >
-                <Card className="overflow-hidden border-slate-800 bg-[#0b1120] hover:border-slate-700 transition-colors">
-                  <CardContent className="p-0">
-                    <div className={cn(
-                      "flex flex-col md:flex-row min-h-[350px]",
-                      mod.reverse && "md:flex-row-reverse"
-                    )}>
-                      
-                      {/* Content Side */}
-                      <div className="flex-[2.5] p-8 md:p-12">
-                        <div className="flex items-start gap-4 mb-6">
-                          <div className="w-12 h-12 rounded-xl bg-emerald-500/10 flex items-center justify-center text-emerald-400 border border-emerald-500/20">
-                            <mod.icon className="w-6 h-6" />
+            {filtered.map((mod) => {
+              const themeColor = getColorClasses(mod);
+              const styles = colorMap[themeColor];
+
+              return (
+                <motion.div
+                  key={mod.id}
+                  id={mod.id}
+                  initial={{ opacity: 0, y: 15 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={{ opacity: 0, scale: 0.98 }}
+                  transition={{ duration: 0.3 }}
+                  className="scroll-mt-32"
+                >
+                  <Card className="overflow-hidden border-slate-800 bg-[#0b1120] hover:border-slate-700 transition-colors">
+                    <CardContent className="p-0">
+                      <div className={cn(
+                        "grid grid-cols-1 lg:grid-cols-12 min-h-[260px]",
+                        mod.reverse && "lg:[&>*:first-child]:col-start-5"
+                      )}>
+                        
+                        <div className="lg:col-span-8 p-6 md:p-8">
+                          <div className="flex items-center gap-4 mb-4">
+                            <div className={cn(
+                              "w-10 h-10 rounded-lg flex items-center justify-center border transition-all",
+                              styles.bg, styles.text, styles.border
+                            )}>
+                              <mod.icon className="w-5 h-5" />
+                            </div>
+                            <div>
+                              <h3 className="text-xl font-bold text-white leading-tight">{mod.title}</h3>
+                              <p className={cn("text-xs font-medium uppercase tracking-wide", styles.tagline)}>
+                                {mod.tagline}
+                              </p>
+                            </div>
                           </div>
-                          <div>
-                            <h3 className="text-2xl font-bold text-white mb-1">{mod.title}</h3>
-                            <p className="text-emerald-400/80 text-sm font-medium">{mod.tagline}</p>
+
+                          <p className="text-slate-400 leading-relaxed mb-6 text-sm max-w-3xl">
+                            {mod.desc}
+                          </p>
+
+                          <div className="grid grid-cols-1 sm:grid-cols-2 gap-x-6 gap-y-2">
+                            {mod.features.map((f) => (
+                              <div key={f} className="flex items-center gap-2.5 text-[13px] text-slate-300">
+                                <CheckCircle2 className={cn("w-3.5 h-3.5 shrink-0", styles.icon)} />
+                                <span>{f}</span>
+                              </div>
+                            ))}
                           </div>
                         </div>
 
-                        <p className="text-slate-400 leading-relaxed mb-8 text-[15px]">
-                          {mod.desc}
-                        </p>
-
-                        <div className="grid grid-cols-1 sm:grid-cols-2 gap-x-8 gap-y-3">
-                          {mod.features.map((f) => (
-                            <div key={f} className="flex items-center gap-3 text-sm text-slate-300">
-                              <CheckCircle2 className="w-4 h-4 text-emerald-500 shrink-0" />
-                              <span>{f}</span>
+                        <div className={cn(
+                          "lg:col-span-4 bg-black/20 border-slate-800/50 flex flex-row lg:flex-col justify-around lg:justify-center items-center p-6 gap-4 lg:gap-6",
+                          mod.reverse ? "lg:border-r lg:col-start-1 lg:row-start-1" : "lg:border-l"
+                        )}>
+                          {mod.stats.map((s) => (
+                            <div key={s.label} className="text-center">
+                              <p className={cn("text-2xl font-bold leading-none mb-1", styles.text)}>
+                                {s.value}
+                              </p>
+                              <p className="text-[10px] text-slate-500 uppercase tracking-widest font-bold">{s.label}</p>
                             </div>
                           ))}
                         </div>
-                      </div>
 
-                      {/* Stats Sidebar */}
-                      <div className="flex-1 bg-black/20 border-l border-slate-800/50 flex flex-col justify-center items-center p-8 gap-8 min-w-[200px]">
-                        {mod.stats.map((s) => (
-                          <div key={s.label} className="text-center">
-                            <p className="text-3xl font-bold text-emerald-400 mb-1">{s.value}</p>
-                            <p className="text-[11px] text-slate-500 uppercase tracking-widest font-semibold">{s.label}</p>
-                          </div>
-                        ))}
                       </div>
-
-                    </div>
-                  </CardContent>
-                </Card>
-              </motion.div>
-            ))}
+                    </CardContent>
+                  </Card>
+                </motion.div>
+              );
+            })}
           </AnimatePresence>
         </div>
+
+        {/* Why Choose Us Section */}
+        <div className="mt-24">
+          <div className="text-center mb-12">
+            <h2 className="text-3xl font-bold text-white mb-3">
+              Why Choose <span className="text-emerald-400">LicenceBot?</span>
+            </h2>
+            <p className="text-slate-400 max-w-xl mx-auto text-sm">
+              Stop juggling multiple tools. One unified platform replaces them all.
+            </p>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+            {whyChooseUs.map((item, idx) => (
+              <Card key={idx} className="bg-[#0b1120] border-slate-800/50 hover:bg-[#0f172a] transition-all duration-300">
+                <CardContent className="p-6 text-center flex flex-col items-center">
+                  <div className="w-10 h-10 rounded-lg bg-emerald-500/10 border border-emerald-500/20 flex items-center justify-center mb-4 text-emerald-400">
+                    <item.icon className="w-5 h-5" />
+                  </div>
+                  <h3 className="text-md font-bold text-white mb-2">{item.title}</h3>
+                  <p className="text-xs text-slate-400 leading-relaxed">
+                    {item.desc}
+                  </p>
+                </CardContent>
+              </Card>
+            ))}
+          </div>
+        </div>
+
       </div>
     </section>
   );

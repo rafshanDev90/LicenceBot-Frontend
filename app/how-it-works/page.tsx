@@ -22,13 +22,28 @@ export const metadata: Metadata = {
 
 export default function HowItWorksPage() {
   return (
-    <div className="flex min-h-screen flex-col bg-background">
+    <div className="flex min-h-screen flex-col" style={{ backgroundColor: "#0b0f0e" }}>
       <PublicNavbar />
-      <main className="flex-1">
-        <PageHeader 
-          title={<>From Zero to <span className="text-gradient">Automated Delivery</span> in Minutes</>}
+      <main className="flex-1 pt-20">
+        <PageHeader
+          title={
+            <>
+              From Zero to{" "}
+              <span
+                style={{
+                  background: "linear-gradient(135deg, #2dd4bf, #10b981)",
+                  WebkitBackgroundClip: "text",
+                  WebkitTextFillColor: "transparent",
+                  backgroundClip: "text",
+                }}
+              >
+                Automated Delivery
+              </span>{" "}
+              in Minutes
+            </>
+          }
           description="Connect your store, upload your keys, and let LicenceBot handle every delivery automatically. No coding required."
-          badge="How It Works"
+          badge="4 Simple Steps"
           badgeIcon={Zap}
         />
         <HowItWorksClient />

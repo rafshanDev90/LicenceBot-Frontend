@@ -61,8 +61,9 @@ export function PublicFooter() {
 
   return (
     <footer className="py-[50px] px-0 pb-[30px]" style={{ backgroundColor: '#0d131c', color: '#fff' }}>
-      <div className="max-w-7xl mx-auto px-4 sm:px-6">
+      <div className="container">
         <div className="grid grid-cols-2 md:grid-cols-5 gap-8">
+          {/* Logo Section */}
           <div className="col-span-2 md:col-span-1">
             <Link href="/home" className="flex items-center gap-2 mb-4">
               <div className="w-8 h-8 rounded-lg bg-primary flex items-center justify-center">
@@ -91,6 +92,7 @@ export function PublicFooter() {
             </div>
           </div>
 
+          {/* Links Sections */}
           {Object.entries(footerLinks).map(([title, links]) => (
             <div key={title}>
               <h4 className="text-sm font-semibold mb-4" style={{ color: '#fff' }}>{title}</h4>
@@ -110,27 +112,42 @@ export function PublicFooter() {
           ))}
         </div>
 
+        {/* Newsletter Section - Reduced Height */}
         <div className="mt-12 pt-8 border-t" style={{ borderColor: 'rgba(255, 255, 255, 0.1)' }}>
-          <div className="rounded-2xl p-6 flex flex-col md:flex-row items-center justify-between gap-4" style={{ background: 'rgba(255, 255, 255, 0.05)', border: '1px solid rgba(255, 255, 255, 0.1)' }}>
-            <div>
-              <p className="font-semibold">Stay up to date</p>
-              <p className="text-sm mt-1" style={{ color: '#fff' }}>
+          <div 
+            className="rounded-2xl py-5 px-8 flex flex-col md:flex-row items-center justify-between gap-6" 
+            style={{ 
+                background: '#0D1A27', 
+                border: '1px solid rgba(255, 255, 255, 0.05)' 
+            }}
+          >
+            <div className="text-left w-full md:w-auto">
+              <p className="text-base font-semibold text-white">Stay up to date</p>
+              <p className="text-xs mt-0.5 text-slate-400">
                 Subscribe for product updates, tips, and exclusive offers.
               </p>
             </div>
-            <div className="flex gap-2 w-full md:w-auto">
+            <div className="flex gap-3 w-full md:w-auto">
               <input
                 type="email"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
                 onKeyDown={(e) => e.key === "Enter" && handleSubscribe()}
-                className="px-4 py-2.5 rounded-lg text-sm w-full md:w-64 focus:outline-none focus:ring-2 focus:ring-ring placeholder:text-white/60" 
-                style={{ background: 'rgba(255, 255, 255, 0.1)', border: '1px solid rgba(255, 255, 255, 0.2)', color: '#fff' }}
+                className="px-4 py-2.5 rounded-xl text-sm w-full md:w-80 focus:outline-none focus:ring-1 focus:ring-emerald-500/50 placeholder:text-slate-500" 
+                style={{ 
+                    background: '#070c14', 
+                    border: '1px solid rgba(255, 255, 255, 0.1)', 
+                    color: '#fff' 
+                }}
                 placeholder="your@email.com"
               />
               <button
                 onClick={handleSubscribe}
-                className="px-6 py-2.5 rounded-lg bg-primary text-primary-foreground text-sm font-medium hover:bg-primary/90 transition-colors"
+                className="px-6 py-2.5 rounded-xl text-sm font-semibold transition-all active:scale-95"
+                style={{ 
+                    backgroundColor: '#2dd4bf', 
+                    color: '#000',
+                }}
               >
                 {subscribed ? "Subscribed!" : "Subscribe"}
               </button>
@@ -138,13 +155,14 @@ export function PublicFooter() {
           </div>
         </div>
 
+        {/* Bottom Footer */}
         <div className="mt-8 pt-6 flex flex-col sm:flex-row items-center justify-between gap-2" style={{ borderTop: '1px solid rgba(255, 255, 255, 0.1)' }}>
-          <p className="text-xs" style={{ color: '#fff' }}>
+          <p className="text-xs text-slate-400">
             © {new Date().getFullYear()} LicenceBot. All rights reserved.
           </p>
           <div className="flex items-center gap-4">
-            <Link href="/terms" className="text-xs hover:opacity-80 transition-opacity">Terms</Link>
-            <Link href="/privacy" className="text-xs hover:opacity-80 transition-opacity">Privacy</Link>
+            <Link href="/terms" className="text-xs text-slate-400 hover:text-white transition-colors">Terms</Link>
+            <Link href="/privacy" className="text-xs text-slate-400 hover:text-white transition-colors">Privacy</Link>
           </div>
         </div>
       </div>
