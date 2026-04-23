@@ -1,9 +1,6 @@
 # Shopping Cart & Multi-Step Checkout Implementation
-
 ## Overview
-
 This implementation provides a complete e-commerce shopping cart and multi-step checkout flow for the LicenceBot Next.js application. The system uses Zustand for state management, Tailwind CSS for styling, and follows modern React patterns with TypeScript.
-
 ## Features Implemented
 
 ### 🛒 Shopping Cart Features
@@ -115,7 +112,6 @@ const handleAddToCart = async (product: Product) => {
   openCart(); // Auto-open cart drawer
 };
 ```
-
 ### 2. Multi-Step Navigation
 ```typescript
 const handleNext = () => {

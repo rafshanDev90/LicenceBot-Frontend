@@ -1,11 +1,11 @@
 "use client";
 
-import { useState, useMemo } from "react";
+import { useState, useMemo, useEffect } from "react";
 import Link from "next/link";
 import { motion } from "framer-motion";
-import { Search, Package, ShoppingCart, Star, CheckCircle, SlidersHorizontal, Tag, Grid3X3, List, ChevronDown } from "lucide-react";
+import { Search, Package, ShoppingCart, Star, CheckCircle, Tag, Grid3X3, List, ChevronDown, Loader2, AlertCircle } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { mockProducts } from "@/lib/store-data";
+import { fetchLicenseProducts, LicenseProduct } from "@/lib/api/license-products";
 
 type SortOption = "name" | "price_asc" | "price_desc";
 
@@ -14,29 +14,82 @@ export function StoreClient() {
   const [sortBy, setSortBy] = useState<SortOption>("name");
   const [selectedCategory, setSelectedCategory] = useState<string>("all");
   const [viewMode, setViewMode] = useState<"grid" | "list">("grid");
+  const [products, setProducts] = useState<LicenseProduct[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
+
+  useEffect(() => {
+    let isMounted = true;
+    async function loadProducts() {
+      try {
+        setLoading(true);
+        const data = await fetchLicenseProducts();
+        if (isMounted) {
+          setProducts(data);
+          setError(null);
+        }
+      } catch (err) {
+        if (isMounted) {
+          setError(err instanceof Error ? err.message : "Failed to load products");
+        }
+      } finally {
+        if (isMounted) {
+          setLoading(false);
+        }
+      }
+    }
+    loadProducts();
+    return () => { isMounted = false; };
+  }, []);
 
   const categories = useMemo(() => {
     const cats = new Set<string>();
-    mockProducts.forEach((p) => p.categories.forEach((c) => cats.add(c)));
+    products.forEach((p) => {
+      if (p.product_type) cats.add(p.product_type);
+    });
     return Array.from(cats).sort();
-  }, []);
+  }, [products]);
 
   const filtered = useMemo(() => {
-    let result = mockProducts.filter((p) => p.name.toLowerCase().includes(search.toLowerCase()));
+    let result = products.filter((p) => p.name.toLowerCase().includes(search.toLowerCase()));
 
     if (selectedCategory !== "all") {
-      result = result.filter((p) => p.categories.includes(selectedCategory));
+      result = result.filter((p) => p.product_type === selectedCategory);
     }
 
     result.sort((a, b) => {
+      const aPrice = a.sale_price ?? a.regular_price ?? 0;
+      const bPrice = b.sale_price ?? b.regular_price ?? 0;
       switch (sortBy) {
-        case "price_asc": return Number(a.sale_price) - Number(b.sale_price);
-        case "price_desc": return Number(b.sale_price) - Number(a.sale_price);
+        case "price_asc": return aPrice - bPrice;
+        case "price_desc": return bPrice - aPrice;
         default: return a.name.localeCompare(b.name);
       }
     });
     return result;
-  }, [search, sortBy, selectedCategory]);
+  }, [products, search, sortBy, selectedCategory]);
+
+  if (loading) {
+    return (
+      <div className="flex flex-col items-center justify-center py-32 bg-background">
+        <Loader2 className="w-12 h-12 text-primary animate-spin mb-4" />
+        <p className="text-muted-foreground animate-pulse text-lg font-medium">Loading digital assets...</p>
+      </div>
+    );
+  }
+
+  if (error) {
+    return (
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 py-32 text-center">
+        <div className="bg-destructive/5 rounded-3xl border border-destructive/20 p-12 max-w-2xl mx-auto">
+          <AlertCircle className="w-16 h-16 text-destructive mx-auto mb-6" />
+          <h2 className="text-2xl font-bold text-foreground mb-3">Connection Error</h2>
+          <p className="text-muted-foreground mb-8">{error}</p>
+          <Button size="lg" onClick={() => window.location.reload()}>Try Again</Button>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <>
@@ -50,7 +103,7 @@ export function StoreClient() {
             Browse Our Products
           </motion.h1>
           <motion.p initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.2 }} className="mt-6 text-lg sm:text-xl text-muted-foreground max-w-2xl mx-auto">
-            Start selling software licence keys immediately using our demo store setup. View high-quality digital products powered by our auto-delivery engine.
+            Experience premium digital software with our automated delivery system. Genuine license keys delivered instantly to your dashboard.
           </motion.p>
         </div>
       </section>
@@ -116,20 +169,26 @@ export function StoreClient() {
           ) : viewMode === "grid" ? (
             <div className="grid sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 xl:gap-8">
               {filtered.map((product, i) => {
-                const discount = Math.round(((Number(product.regular_price) - Number(product.sale_price)) / Number(product.regular_price)) * 100);
-                const inStock = product.stock_status === "instock";
+                const regPrice = product.regular_price ?? 0;
+                const salePrice = product.sale_price ?? regPrice;
+                const discount = regPrice > 0 ? Math.round(((regPrice - salePrice) / regPrice) * 100) : 0;
+                const inStock = product.stock_count > 0;
 
                 return (
                   <motion.div key={product.id} initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: Math.min(i * 0.05, 0.3) }}>
                     <div className="group bg-card border border-border/60 rounded-2xl overflow-hidden hover:shadow-2xl hover:border-primary/30 transition-all duration-500 hover:-translate-y-1.5 flex flex-col h-full bg-gradient-to-b from-card to-background">
                       <div className="relative aspect-[4/3] bg-muted flex items-center justify-center overflow-hidden">
-                        <img src={product.images[0]} alt={product.name} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700 ease-out" />
+                        {product.image_url ? (
+                          <img src={product.image_url} alt={product.name} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700 ease-out" />
+                        ) : (
+                          <Package className="w-12 h-12 text-muted-foreground/30" />
+                        )}
                         
                         <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/0 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
                         
                         <div className="absolute top-4 left-4 flex flex-col gap-2">
                           {discount > 0 && <span className="px-3 py-1 rounded-[8px] bg-destructive/90 text-destructive-foreground text-xs font-black tracking-widest uppercase shadow-md backdrop-blur-sm">-{discount}%</span>}
-                          {i === 0 && <span className="px-3 py-1 rounded-[8px] bg-primary/90 text-primary-foreground text-xs font-black tracking-widest uppercase shadow-md backdrop-blur-sm">Hot</span>}
+                          {product.sold_count > 100 && <span className="px-3 py-1 rounded-[8px] bg-primary/90 text-primary-foreground text-xs font-black tracking-widest uppercase shadow-md backdrop-blur-sm">Hot</span>}
                         </div>
 
                         <div className="absolute bottom-4 right-4">
@@ -141,25 +200,16 @@ export function StoreClient() {
 
                       <div className="p-6 flex-1 flex flex-col bg-card">
                         <span className="text-[10px] font-extrabold uppercase tracking-widest text-primary/80 mb-2 truncate">
-                          {product.categories[0]}
+                          {product.product_type}
                         </span>
                         <h3 className="text-base font-bold text-foreground leading-snug line-clamp-2 mb-3 group-hover:text-primary transition-colors">
                           {product.name}
                         </h3>
-                        <div className="flex items-center gap-1.5 mb-5">
-                          <div className="flex items-center gap-[1px]">
-                            {[1, 2, 3, 4, 5].map((s) => (
-                              <Star key={s} className={`w-3.5 h-3.5 ${s <= Math.floor(product.rating.score) ? "fill-warning text-warning" : "fill-muted text-muted"}`} />
-                            ))}
-                          </div>
-                          <span className="text-xs font-bold text-foreground ml-1">{product.rating.score}</span>
-                          <span className="text-xs text-muted-foreground">({product.rating.count})</span>
-                        </div>
                         
                         <div className="mt-auto pt-4 flex items-center justify-between border-t border-border/50">
                           <div>
-                            <span className="text-2xl font-black text-foreground block">${product.sale_price}</span>
-                            {discount > 0 && <span className="text-xs font-semibold text-muted-foreground line-through block mt-0.5">${product.regular_price}</span>}
+                            <span className="text-2xl font-black text-foreground block">${salePrice.toFixed(2)}</span>
+                            {discount > 0 && <span className="text-xs font-semibold text-muted-foreground line-through block mt-0.5">${regPrice.toFixed(2)}</span>}
                           </div>
                           <Button size="icon" className="h-10 w-10 rounded-xl group-hover:scale-110 transition-transform shadow-md" asChild>
                              <Link href={`/store/${product.id}`}><ShoppingCart className="w-4 h-4" /></Link>
@@ -174,17 +224,23 @@ export function StoreClient() {
           ) : (
              <div className="space-y-4">
                {filtered.map((product, i) => {
-                 const discount = Math.round(((Number(product.regular_price) - Number(product.sale_price)) / Number(product.regular_price)) * 100);
-                 const inStock = product.stock_status === "instock";
+                 const regPrice = product.regular_price ?? 0;
+                 const salePrice = product.sale_price ?? regPrice;
+                 const discount = regPrice > 0 ? Math.round(((regPrice - salePrice) / regPrice) * 100) : 0;
+                 const inStock = product.stock_count > 0;
 
                  return (
                    <motion.div key={product.id} initial={{ opacity: 0, x: -20 }} whileInView={{ opacity: 1, x: 0 }} viewport={{ once: true }} transition={{ delay: Math.min(i * 0.05, 0.3) }}>
                      <Link href={`/store/${product.id}`} className="group flex flex-col sm:flex-row items-stretch sm:items-center gap-6 p-4 sm:p-6 bg-card border border-border/60 rounded-3xl hover:shadow-2xl hover:border-primary/30 transition-all duration-300">
-                        <div className="w-full sm:w-48 h-48 sm:h-32 rounded-2xl bg-muted overflow-hidden shrink-0 relative">
-                           <img src={product.images[0]} alt={product.name} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" />
+                        <div className="w-full sm:w-48 h-48 sm:h-32 rounded-2xl bg-muted overflow-hidden shrink-0 relative flex items-center justify-center">
+                           {product.image_url ? (
+                             <img src={product.image_url} alt={product.name} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" />
+                           ) : (
+                             <Package className="w-12 h-12 text-muted-foreground/30" />
+                           )}
                         </div>
                         <div className="flex-1 min-w-0 flex flex-col justify-center">
-                           <span className="text-[10px] font-extrabold uppercase tracking-widest text-primary/80 mb-1.5">{product.categories[0]}</span>
+                           <span className="text-[10px] font-extrabold uppercase tracking-widest text-primary/80 mb-1.5">{product.product_type}</span>
                            <h3 className="text-lg font-bold text-foreground group-hover:text-primary transition-colors truncate mb-2">{product.name}</h3>
                            <p className="text-sm text-muted-foreground line-clamp-1 mb-3">{product.short_description}</p>
                            <span className={`inline-flex items-center gap-1.5 px-3 py-1 rounded-[8px] text-[10px] font-black uppercase tracking-widest border w-fit ${inStock ? "bg-success/10 text-success border-success/20" : "bg-destructive/10 text-destructive border-destructive/20"}`}>
@@ -193,7 +249,7 @@ export function StoreClient() {
                         </div>
                         <div className="sm:text-right flex items-center justify-between sm:flex-col sm:items-end sm:justify-center border-t border-border/50 sm:border-0 pt-4 sm:pt-0 mt-4 sm:mt-0">
                           <div>
-                            <span className="text-3xl font-black text-foreground block">${product.sale_price}</span>
+                            <span className="text-3xl font-black text-foreground block">${salePrice.toFixed(2)}</span>
                             {discount > 0 && <span className="text-xs font-semibold text-success tracking-wider uppercase block mt-1">Save {discount}%</span>}
                           </div>
                           <Button className="mt-0 sm:mt-4 rounded-xl gap-2 shadow-md">

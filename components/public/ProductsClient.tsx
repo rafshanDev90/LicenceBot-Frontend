@@ -1,65 +1,47 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { Search, Package, ShoppingCart, Tag } from "lucide-react";
+import { Search, Package, ShoppingCart, Tag, Loader2, AlertCircle } from "lucide-react";
 import Link from "next/link";
 import { useCartStore } from "@/lib/cart-store";
-
-interface LicenseProduct {
-  id: string;
-  name: string;
-  short_description: string | null;
-  image_url: string | null;
-  regular_price: number | null;
-  sale_price: number | null;
-  stock_count: number;
-  sold_count: number;
-  product_type: string;
-  license_type: string | null;
-  category_id: string | null;
-}
-
-// Dummy products for visual development
-const mockProducts: LicenseProduct[] = [
-  {
-    id: "1",
-    name: "Windows 11 Pro License Key",
-    short_description: "Lifetime digital license for 1 PC.",
-    image_url: null,
-    regular_price: 199.99,
-    sale_price: 24.99,
-    stock_count: 50,
-    sold_count: 1240,
-    product_type: "Software",
-    license_type: "Retail",
-    category_id: null,
-  },
-  {
-    id: "2",
-    name: "Office 2021 Professional Plus",
-    short_description: "Complete productivity suite.",
-    image_url: null,
-    regular_price: 249.99,
-    sale_price: 39.99,
-    stock_count: 0,
-    sold_count: 850,
-    product_type: "Software",
-    license_type: "Volume",
-    category_id: null,
-  },
-];
+import { fetchLicenseProducts, LicenseProduct } from "@/lib/api/license-products";
 
 export function ProductsClient() {
   const [search, setSearch] = useState("");
   const [addingToCart, setAddingToCart] = useState<string | null>(null);
+  const [products, setProducts] = useState<LicenseProduct[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
   
-  // Using static mock data since Supabase SSR isn't fully configured
-  const products = mockProducts;
   const { addItem, isInCart, openCart } = useCartStore();
+
+  useEffect(() => {
+    let isMounted = true;
+    async function loadProducts() {
+      try {
+        setLoading(true);
+        const data = await fetchLicenseProducts();
+        if (isMounted) {
+          setProducts(data);
+          setError(null);
+        }
+      } catch (err) {
+        if (isMounted) {
+          setError(err instanceof Error ? err.message : "Failed to load products");
+        }
+      } finally {
+        if (isMounted) {
+          setLoading(false);
+        }
+      }
+    }
+    loadProducts();
+    return () => { isMounted = false; };
+  }, []);
 
   const filtered = products.filter((p) =>
     p.name.toLowerCase().includes(search.toLowerCase())
@@ -73,7 +55,7 @@ export function ProductsClient() {
   const handleAddToCart = async (product: LicenseProduct) => {
     setAddingToCart(product.id);
     
-    // Simulate API call
+    // Simulate API delay for UX
     await new Promise(resolve => setTimeout(resolve, 500));
     
     addItem({
@@ -107,7 +89,19 @@ export function ProductsClient() {
       </div>
 
       <section className="py-8 pb-20">
-        {filtered.length === 0 ? (
+        {loading ? (
+          <div className="flex flex-col items-center justify-center py-20 bg-muted/5 rounded-2xl border border-dashed border-border">
+            <Loader2 className="w-10 h-10 text-primary animate-spin mb-4" />
+            <p className="text-muted-foreground animate-pulse">Fetching inventory...</p>
+          </div>
+        ) : error ? (
+          <div className="text-center py-20 bg-destructive/5 rounded-2xl border border-destructive/20">
+            <AlertCircle className="w-12 h-12 text-destructive mx-auto mb-4" />
+            <h3 className="text-lg font-semibold text-foreground mb-1">Connection Error</h3>
+            <p className="text-sm text-muted-foreground mb-6 max-w-md mx-auto">{error}</p>
+            <Button variant="outline" onClick={() => window.location.reload()}>Try Again</Button>
+          </div>
+        ) : filtered.length === 0 ? (
           <div className="text-center py-20 bg-muted/20 rounded-2xl border border-border">
             <Package className="w-12 h-12 text-muted-foreground mx-auto mb-4" />
             <h3 className="text-lg font-semibold text-foreground mb-1">No products found</h3>
