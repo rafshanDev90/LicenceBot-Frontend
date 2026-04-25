@@ -4,6 +4,28 @@ import { PublicNavbar } from "@/components/public/PublicNavbar";
 import { PublicFooter } from "@/components/public/PublicFooter";
 import { mockProducts } from "@/lib/store-data";
 import { ProductDetailClient } from "@/components/store/ProductDetailClient";
+import { LicenseProduct } from "@/lib/api/license-products";
+
+/**
+ * Helper to map mock products to the LicenseProduct interface
+ */
+function mapMockToLicenseProduct(mock: any): LicenseProduct {
+  return {
+    id: mock.id,
+    name: mock.name,
+    short_description: mock.short_description,
+    image_url: mock.images?.[0] || null,
+    regular_price: parseFloat(mock.regular_price || "0"),
+    sale_price: parseFloat(mock.sale_price || "0"),
+    stock_count: mock.stock_status === "instock" ? 50 : 0,
+    sold_count: mock.rating?.count || 0,
+    product_type: mock.categories?.[0] || "Software",
+    license_type: "Digital",
+    category_id: null,
+    status: "active",
+    slug: mock.id, // Fallback slug
+  };
+}
 
 export function generateMetadata({ params }: { params: { id: string } }): Metadata {
   const product = mockProducts.find(p => p.id === params.id);
@@ -22,11 +44,13 @@ export function generateStaticParams() {
 }
 
 export default function ProductDetailPage({ params }: { params: { id: string } }) {
-  const product = mockProducts.find((p) => p.id === params.id);
+  const rawProduct = mockProducts.find((p) => p.id === params.id);
 
-  if (!product) {
+  if (!rawProduct) {
     notFound();
   }
+
+  const product = mapMockToLicenseProduct(rawProduct);
 
   return (
     <main className="relative min-h-screen bg-background overflow-hidden flex flex-col">
