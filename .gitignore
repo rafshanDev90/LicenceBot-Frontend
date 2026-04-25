@@ -5,3 +5,5 @@ package-lock.json
 .env
 .env.local
 dist/
+LicenceBot-Frontend-2.0/checkout-test.tsx
+checkout-test.tsx

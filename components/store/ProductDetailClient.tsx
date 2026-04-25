@@ -44,6 +44,7 @@ export function ProductDetailClient({ product }: ProductDetailClientProps) {
       productType: product.product_type,
       licenseType: product.license_type || "Digital",
       stockCount: product.stock_count,
+      product_slug: product.slug || null,
     });
     
     setIsAddingToCart(false);

@@ -69,6 +69,7 @@ export function ProductsClient() {
       productType: product.product_type,
       licenseType: product.license_type,
       stockCount: product.stock_count,
+      product_slug: product.slug || null,
     });
     
     setAddingToCart(null);

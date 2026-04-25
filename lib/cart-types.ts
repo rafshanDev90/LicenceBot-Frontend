@@ -12,6 +12,7 @@ export interface CartItem {
   productType: string;
   licenseType: string | null;
   stockCount: number;
+  product_slug: string | null;
 }
 
 export interface CartState {

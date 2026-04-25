@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useCartStore } from "@/lib/cart-store";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
@@ -8,31 +8,10 @@ import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { Label } from "@/components/ui/label";
 import { Separator } from "@/components/ui/separator";
 import { Badge } from "@/components/ui/badge";
-import { ArrowRight, ArrowLeft, CreditCard, Smartphone, DollarSign, Shield, Clock } from "lucide-react";
+import { ArrowRight, ArrowLeft, CreditCard, Smartphone, DollarSign, Shield, Clock, Loader2 } from "lucide-react";
 import Link from "next/link";
 import type { PaymentMethod } from "@/lib/cart-types";
-
-// Mock payment methods
-const paymentMethods: PaymentMethod[] = [
-  {
-    id: "cod",
-    name: "Cash on Delivery",
-    description: "Pay when you receive your order",
-    type: "cod",
-  },
-  {
-    id: "card",
-    name: "Credit/Debit Card",
-    description: "Pay securely with your card",
-    type: "card",
-  },
-  {
-    id: "online",
-    name: "Online Banking",
-    description: "Pay through your bank's online portal",
-    type: "online",
-  },
-];
+import { fetchGateways, createCheckout, type Gateway } from "@/lib/api/checkout";
 
 interface PaymentStepProps {
   onNext: () => void;
@@ -47,27 +26,73 @@ export function PaymentStep({ onNext, onPrevious }: PaymentStepProps) {
   } = useCartStore();
   
   const [selectedPayment, setSelectedPayment] = useState<string>(
-    checkoutData.paymentMethod?.id || "cod"
+    checkoutData.paymentMethod?.id || ""
   );
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [isLoadingGateways, setIsLoadingGateways] = useState(true);
+  const [gateways, setGateways] = useState<Gateway[]>([]);
+  const [error, setError] = useState<string | null>(null);
 
-  const selectedPaymentMethod = paymentMethods.find(method => method.id === selectedPayment);
+  const selectedPaymentMethod = gateways.find(g => g.gateway === selectedPayment);
   const shippingCost = checkoutData.shippingMethod?.price || 0;
   const estimatedTax = totalPrice * 0.08; // 8% tax rate
   const total = totalPrice + shippingCost + estimatedTax;
 
+  // Fetch payment gateways on component mount
+  useEffect(() => {
+    const loadGateways = async () => {
+      try {
+        setIsLoadingGateways(true);
+        const fetchedGateways = await fetchGateways();
+        setGateways(fetchedGateways);
+        if (fetchedGateways.length > 0 && !selectedPayment) {
+          setSelectedPayment(fetchedGateways[0].gateway);
+        }
+      } catch (err) {
+        console.error("Failed to fetch gateways:", err);
+        setError("Failed to load payment methods. Please try again.");
+      } finally {
+        setIsLoadingGateways(false);
+      }
+    };
+    loadGateways();
+  }, [selectedPayment]);
+
   const handleSubmit = async () => {
-    if (!selectedPaymentMethod) return;
+    if (!selectedPaymentMethod || !checkoutData.shippingAddress) return;
     
     setIsSubmitting(true);
+    setError(null);
     
-    // Simulate API call
-    await new Promise(resolve => setTimeout(resolve, 1500));
-    
-    // In a real app, you would process the payment here
-    onNext();
-    
-    setIsSubmitting(false);
+    try {
+      // Prepare checkout request
+      const checkoutRequest = {
+        items: items.map(item => ({
+          product_slug: item.product_slug || item.productId,
+          quantity: item.quantity,
+        })),
+        customer: {
+          email: checkoutData.shippingAddress.email,
+          name: `${checkoutData.shippingAddress.firstName} ${checkoutData.shippingAddress.lastName}`,
+        },
+        gateway: selectedPaymentMethod.gateway,
+        return_url: `${window.location.origin}/checkout/success`,
+        cancel_url: `${window.location.origin}/checkout/cancel`,
+      };
+
+      const response = await createCheckout(checkoutRequest);
+      
+      // Step 3: Redirect to checkout URL
+      if (response.checkout_url) {
+        window.location.href = response.checkout_url;
+      } else {
+        throw new Error("No checkout URL received");
+      }
+    } catch (err) {
+      console.error("Checkout failed:", err);
+      setError(err instanceof Error ? err.message : "Failed to process checkout. Please try again.");
+      setIsSubmitting(false);
+    }
   };
 
   if (items.length === 0 || !checkoutData.shippingAddress || !checkoutData.shippingMethod) {
@@ -89,13 +114,38 @@ export function PaymentStep({ onNext, onPrevious }: PaymentStepProps) {
     );
   }
 
-  const getPaymentIcon = (type: PaymentMethod['type']) => {
-    switch (type) {
+  if (isLoadingGateways) {
+    return (
+      <div className="max-w-2xl mx-auto text-center py-12">
+        <div className="flex flex-col items-center gap-4">
+          <Loader2 className="h-8 w-8 animate-spin text-primary" />
+          <p className="text-muted-foreground">Loading payment methods...</p>
+        </div>
+      </div>
+    );
+  }
+
+  if (error) {
+    return (
+      <div className="max-w-2xl mx-auto text-center py-12">
+        <div className="bg-destructive/10 rounded-lg p-8 border border-destructive/20">
+          <h2 className="text-xl font-semibold text-destructive mb-4">Error</h2>
+          <p className="text-muted-foreground mb-6">{error}</p>
+          <Button onClick={() => window.location.reload()}>
+            Try Again
+          </Button>
+        </div>
+      </div>
+    );
+  }
+
+  const getPaymentIcon = (kind: Gateway['kind']) => {
+    switch (kind) {
       case 'card':
         return <CreditCard className="h-5 w-5" />;
-      case 'cod':
+      case 'crypto':
         return <DollarSign className="h-5 w-5" />;
-      case 'online':
+      case 'wallet':
         return <Smartphone className="h-5 w-5" />;
       default:
         return <CreditCard className="h-5 w-5" />;
@@ -116,73 +166,37 @@ export function PaymentStep({ onNext, onPrevious }: PaymentStepProps) {
               </CardTitle>
             </CardHeader>
             <CardContent className="space-y-4">
-              <RadioGroup value={selectedPayment} onValueChange={setSelectedPayment}>
-                {paymentMethods.map((method) => (
-                  <div key={method.id} className="space-y-2">
-                    <div className="flex items-center space-x-3">
-                      <RadioGroupItem value={method.id} id={method.id} />
-                      <Label
-                        htmlFor={method.id}
-                        className="flex items-center justify-between w-full cursor-pointer"
-                      >
-                        <div className="flex items-center gap-3">
-                          <div className="text-muted-foreground">
-                            {getPaymentIcon(method.type)}
+              {gateways.length === 0 ? (
+                <div className="text-center py-8 text-muted-foreground">
+                  No payment methods available
+                </div>
+              ) : (
+                <RadioGroup value={selectedPayment} onValueChange={setSelectedPayment}>
+                  {gateways.map((gateway) => (
+                    <div key={gateway.gateway} className="space-y-2">
+                      <div className="flex items-center space-x-3">
+                        <RadioGroupItem value={gateway.gateway} id={gateway.gateway} />
+                        <Label
+                          htmlFor={gateway.gateway}
+                          className="flex items-center justify-between w-full cursor-pointer"
+                        >
+                          <div className="flex items-center gap-3">
+                            <div className="text-muted-foreground">
+                              {getPaymentIcon(gateway.kind)}
+                            </div>
+                            <div>
+                              <p className="font-medium text-foreground">{gateway.display_name}</p>
+                              <p className="text-sm text-muted-foreground capitalize">{gateway.kind} payment</p>
+                            </div>
                           </div>
-                          <div>
-                            <p className="font-medium text-foreground">{method.name}</p>
-                            <p className="text-sm text-muted-foreground">{method.description}</p>
+                          <div className="flex items-center gap-2">
+                            <Badge variant="secondary" className="text-xs capitalize">{gateway.kind}</Badge>
                           </div>
-                        </div>
-                        <div className="flex items-center gap-2">
-                          {method.id === "cod" && (
-                            <Badge variant="secondary" className="text-xs">No extra fees</Badge>
-                          )}
-                          {method.id === "card" && (
-                            <Badge variant="secondary" className="text-xs">Secure</Badge>
-                          )}
-                        </div>
-                      </Label>
+                        </Label>
+                      </div>
                     </div>
-                  </div>
-                ))}
-              </RadioGroup>
-
-              {/* Payment Method Details */}
-              {selectedPayment === "cod" && (
-                <div className="mt-6 p-4 bg-muted/30 rounded-lg border border-border">
-                  <h4 className="font-medium text-foreground mb-2">Cash on Delivery Details</h4>
-                  <ul className="space-y-1 text-sm text-muted-foreground">
-                    <li>• Pay the full amount when your order arrives</li>
-                    <li>• Exact change appreciated</li>
-                    <li>• Driver will provide receipt</li>
-                    <li>• No additional processing fees</li>
-                  </ul>
-                </div>
-              )}
-
-              {selectedPayment === "card" && (
-                <div className="mt-6 p-4 bg-muted/30 rounded-lg border border-border">
-                  <h4 className="font-medium text-foreground mb-2">Card Payment Details</h4>
-                  <ul className="space-y-1 text-sm text-muted-foreground">
-                    <li>• Visa, Mastercard, American Express accepted</li>
-                    <li>• Secure SSL encryption</li>
-                    <li>• 3D Secure authentication available</li>
-                    <li>• Instant payment confirmation</li>
-                  </ul>
-                </div>
-              )}
-
-              {selectedPayment === "online" && (
-                <div className="mt-6 p-4 bg-muted/30 rounded-lg border border-border">
-                  <h4 className="font-medium text-foreground mb-2">Online Banking Details</h4>
-                  <ul className="space-y-1 text-sm text-muted-foreground">
-                    <li>• All major banks supported</li>
-                    <li>• Redirect to secure bank portal</li>
-                    <li>• Real-time payment confirmation</li>
-                    <li>• No additional processing fees</li>
-                  </ul>
-                </div>
+                  ))}
+                </RadioGroup>
               )}
             </CardContent>
           </Card>
@@ -245,13 +259,13 @@ export function PaymentStep({ onNext, onPrevious }: PaymentStepProps) {
               {/* Selected Payment Method */}
               <div className="p-3 bg-muted/30 rounded-lg border border-border">
                 <div className="flex items-center gap-2 mb-2">
-                  {selectedPaymentMethod && getPaymentIcon(selectedPaymentMethod.type)}
+                  {selectedPaymentMethod && getPaymentIcon(selectedPaymentMethod.kind)}
                   <span className="text-sm font-medium text-foreground">
-                    {selectedPaymentMethod?.name}
+                    {selectedPaymentMethod?.display_name}
                   </span>
                 </div>
-                <p className="text-xs text-muted-foreground">
-                  {selectedPaymentMethod?.description}
+                <p className="text-xs text-muted-foreground capitalize">
+                  {selectedPaymentMethod?.kind} payment method
                 </p>
               </div>
 
@@ -271,10 +285,13 @@ export function PaymentStep({ onNext, onPrevious }: PaymentStepProps) {
                 <Button
                   className="w-full h-12 bg-primary hover:bg-primary/90 text-primary-foreground"
                   onClick={handleSubmit}
-                  disabled={!selectedPayment || isSubmitting}
+                  disabled={!selectedPayment || isSubmitting || gateways.length === 0}
                 >
                   {isSubmitting ? (
-                    "Processing Payment..."
+                    <>
+                      <Loader2 className="h-4 w-4 mr-2 animate-spin" />
+                      Processing...
+                    </>
                   ) : (
                     <>
                       Complete Order
