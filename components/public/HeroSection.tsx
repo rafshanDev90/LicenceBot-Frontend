@@ -136,7 +136,7 @@ export function HeroSection() {
               exit={{ opacity: 0, y: -20 }}
               transition={{ duration: 0.4, ease: "easeOut" }}
             >
-              <div className="flex flex-wrap items-center justify-center gap-3 mb-8">
+              <div className="flex flex-wrap items-center justify-center gap-3 mb-6">
                 <span className="inline-flex items-center gap-2 px-5 py-2 rounded-full text-sm font-medium bg-[#04211d] border border-[#0a4d42] text-[#1dc2a2]">
                   <BadgeIcon className="w-4 h-4 text-[#1dc2a2]" />
                   {slide.badge}
