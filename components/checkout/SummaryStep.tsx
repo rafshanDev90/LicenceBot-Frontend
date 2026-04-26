@@ -50,27 +50,32 @@ export function SummaryStep({ onNext, onPrevious }: SummaryStepProps) {
     setCheckoutData 
   } = useCartStore();
   
-  const [selectedShipping, setSelectedShipping] = useState<string>(
-    checkoutData.shippingMethod?.id || "standard"
-  );
   const [isSubmitting, setIsSubmitting] = useState(false);
 
-  const selectedShippingMethod = shippingMethods.find(method => method.id === selectedShipping);
-  const shippingCost = selectedShippingMethod?.price || 0;
+  // Digital products have no shipping cost or delivery days
+  const shippingCost = 0;
   const estimatedTax = totalPrice * 0.08; // 8% tax rate
   const total = totalPrice + shippingCost + estimatedTax;
 
   const handleSubmit = async () => {
-    if (!selectedShippingMethod) return;
-    
     setIsSubmitting(true);
     
-    // Simulate API call
-    await new Promise(resolve => setTimeout(resolve, 1000));
+    // Simulate processing
+    await new Promise(resolve => setTimeout(resolve, 800));
     
-    setCheckoutData({ shippingMethod: selectedShippingMethod });
-    onNext();
+    // Set digital delivery as the default method to satisfy redirect checks
+    setCheckoutData({ 
+      shippingMethod: {
+        id: "digital",
+        name: "Digital Delivery",
+        description: "Instant access after payment",
+        price: 0,
+        estimatedDays: "Instant",
+      } 
+    });
     
+    // Navigate specifically to the payment route
+    onNext(); // This calls the parent's handleNext which pushes to /checkout/payment
     setIsSubmitting(false);
   };
 
@@ -129,49 +134,7 @@ export function SummaryStep({ onNext, onPrevious }: SummaryStepProps) {
               </div>
             </CardContent>
           </Card>
-
-          {/* Shipping Methods */}
-          <Card className="border-border bg-card">
-            <CardHeader>
-              <CardTitle className="flex items-center gap-2">
-                <Truck className="h-5 w-5 text-primary" />
-                Shipping Method
-              </CardTitle>
-            </CardHeader>
-            <CardContent className="space-y-4">
-              <RadioGroup value={selectedShipping} onValueChange={setSelectedShipping}>
-                {shippingMethods.map((method) => (
-                  <div key={method.id} className="space-y-2">
-                    <div className="flex items-center space-x-3">
-                      <RadioGroupItem value={method.id} id={method.id} />
-                      <Label
-                        htmlFor={method.id}
-                        className="flex items-center justify-between w-full cursor-pointer"
-                      >
-                        <div className="flex items-center gap-3">
-                          <Package className="h-5 w-5 text-muted-foreground" />
-                          <div>
-                            <p className="font-medium text-foreground">{method.name}</p>
-                            <p className="text-sm text-muted-foreground">{method.description}</p>
-                            <p className="text-xs text-primary flex items-center gap-1">
-                              <Clock className="h-3 w-3" />
-                              {method.estimatedDays}
-                            </p>
-                          </div>
-                        </div>
-                        <div className="text-right">
-                          <p className="font-bold text-foreground">
-                            {method.price === 0 ? "FREE" : `$${method.price.toFixed(2)}`}
-                          </p>
-                        </div>
-                      </Label>
-                    </div>
-                  </div>
-                ))}
-              </RadioGroup>
-            </CardContent>
-          </Card>
-
+          
           {/* Order Items */}
           <Card className="border-border bg-card">
             <CardHeader>
@@ -223,7 +186,7 @@ export function SummaryStep({ onNext, onPrevious }: SummaryStepProps) {
                 <div className="flex items-center justify-between text-sm">
                   <span className="text-muted-foreground">Shipping</span>
                   <span className="font-medium text-foreground">
-                    {shippingCost === 0 ? "FREE" : `$${shippingCost.toFixed(2)}`}
+                    FREE
                   </span>
                 </div>
                 
@@ -244,7 +207,7 @@ export function SummaryStep({ onNext, onPrevious }: SummaryStepProps) {
                 <Button
                   className="w-full h-12 bg-primary hover:bg-primary/90 text-primary-foreground"
                   onClick={handleSubmit}
-                  disabled={!selectedShipping || isSubmitting}
+                  disabled={isSubmitting}
                 >
                   {isSubmitting ? "Processing..." : "Continue to Payment"}
                   <ArrowRight className="h-4 w-4 ml-2" />

@@ -19,32 +19,31 @@ export function CheckoutProgress({ currentStep, className }: CheckoutProgressPro
   const currentStepIndex = steps.findIndex(step => step.id === currentStep);
 
   return (
-    <div className={cn("w-full max-w-3xl mx-auto", className)}>
-      <div className="flex items-center justify-between relative">
+    <div className={cn("w-full max-w-4xl mx-auto px-4", className)}>
+      <div className="flex items-start justify-between relative">
         {/* Progress line */}
-        <div className="absolute left-0 top-1/2 -translate-y-1/2 w-full h-0.5 bg-border" />
+        <div className="absolute left-[5%] right-[5%] top-5 h-0.5 bg-border -z-0" />
         <div 
-          className="absolute left-0 top-1/2 -translate-y-1/2 h-0.5 bg-primary transition-all duration-500"
-          style={{ width: `${(currentStepIndex / (steps.length - 1)) * 100}%` }}
+          className="absolute left-[5%] top-5 h-0.5 bg-primary transition-all duration-500 -z-0"
+          style={{ width: `${(currentStepIndex / (steps.length - 1)) * 90}%` }}
         />
 
         {/* Steps */}
         {steps.map((step, index) => {
           const isActive = step.id === currentStep;
           const isCompleted = index < currentStepIndex;
-          const isUpcoming = index > currentStepIndex;
 
           return (
-            <div key={step.id} className="relative flex flex-col items-center group">
+            <div key={step.id} className="relative flex flex-col items-center flex-1 z-10">
               {/* Step circle */}
               <div
                 className={cn(
-                  "w-10 h-10 rounded-full border-2 flex items-center justify-center text-sm font-semibold transition-all duration-300 z-10",
+                  "w-10 h-10 rounded-full border-2 flex items-center justify-center text-sm font-semibold transition-all duration-300 bg-background",
                   isActive
-                    ? "bg-primary border-primary text-primary-foreground shadow-lg shadow-primary/25"
+                    ? "border-primary text-primary shadow-glow bg-primary/10"
                     : isCompleted
                     ? "bg-primary border-primary text-primary-foreground"
-                    : "bg-background border-border text-muted-foreground"
+                    : "border-border text-muted-foreground"
                 )}
               >
                 {isCompleted ? (
@@ -56,25 +55,17 @@ export function CheckoutProgress({ currentStep, className }: CheckoutProgressPro
                 )}
               </div>
 
-              {/* Step label */}
-              <div className="absolute top-12 text-center whitespace-nowrap">
+              {/* Step label & description - Moved into flex flow */}
+              <div className="mt-3 text-center flex flex-col items-center">
                 <p className={cn(
-                  "text-sm font-medium",
-                  isActive ? "text-foreground" : isCompleted ? "text-foreground" : "text-muted-foreground"
+                  "text-sm font-bold tracking-tight",
+                  isActive ? "text-primary" : isCompleted ? "text-foreground" : "text-muted-foreground"
                 )}>
                   {step.label}
                 </p>
-                <p className={cn(
-                  "text-xs mt-1",
-                  isActive ? "text-primary" : isCompleted ? "text-muted-foreground" : "text-muted-foreground"
-                )}>
+                <p className="text-[10px] mt-0.5 text-muted-foreground/60 font-medium uppercase tracking-wider hidden sm:block">
                   {step.description}
                 </p>
-              </div>
-
-              {/* Tooltip on hover */}
-              <div className="absolute bottom-full mb-2 px-2 py-1 bg-popover border border-border rounded text-xs text-popover-foreground opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none whitespace-nowrap">
-                {step.description}
               </div>
             </div>
           );

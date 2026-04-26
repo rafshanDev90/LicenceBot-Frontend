@@ -181,7 +181,7 @@ export function ConfirmationStep({ onReset }: ConfirmationStepProps) {
             <CardHeader>
               <CardTitle className="flex items-center gap-2">
                 <MapPin className="h-5 w-5 text-primary" />
-                Shipping Information
+                Shipping Information fahim
               </CardTitle>
             </CardHeader>
             <CardContent className="space-y-4">

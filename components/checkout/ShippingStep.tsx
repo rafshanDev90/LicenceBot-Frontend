@@ -22,7 +22,7 @@ const shippingSchema = z.object({
   address: z.string().min(5, "Address must be at least 5 characters"),
   city: z.string().min(2, "City must be at least 2 characters"),
   state: z.string().min(2, "State must be at least 2 characters"),
-  zipCode: z.string().min(5, "ZIP code must be at least 5 characters"),
+  zipCode: z.string().min(4, "ZIP code must be at least 4 characters"),
   country: z.string().min(2, "Country must be at least 2 characters"),
 });
 
@@ -88,11 +88,11 @@ export function ShippingStep({ onNext, onPrevious }: ShippingStepProps) {
   return (
     <div className="max-w-2xl mx-auto space-y-8">
       {/* Order Summary */}
-      <Card className="border-border bg-card">
+      <Card className="border-border bg-card mt-5">
         <CardHeader>
           <CardTitle className="flex items-center gap-2">
             <MapPin className="h-5 w-5 text-primary" />
-            Shipping Information
+            Shipping Information 
           </CardTitle>
         </CardHeader>
         <CardContent className="space-y-6">
@@ -212,7 +212,7 @@ export function ShippingStep({ onNext, onPrevious }: ShippingStepProps) {
                 <Input
                   id="zipCode"
                   {...register("zipCode")}
-                  placeholder="10001"
+                  placeholder="1000 or 10001"
                   className={errors.zipCode ? "border-destructive" : "border-border"}
                 />
                 {errors.zipCode && (
