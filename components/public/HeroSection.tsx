@@ -126,7 +126,7 @@ export function HeroSection() {
     >
       <div className="absolute inset-0 -z-10 bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-slate-900 via-background to-background" />
 
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 pt-12 pb-10 md:pt-32 md:pb-24">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 pt-4 pb-10 md:pt-16 md:pb-24">
         <div className="text-center max-w-4xl mx-auto">
           <AnimatePresence mode="wait">
             <motion.div
@@ -225,7 +225,7 @@ export function HeroSection() {
           initial={{ opacity: 0, y: 40 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, delay: 0.3 }}
-          className="mt-20 max-w-5xl mx-auto"
+          className="mt-12 max-w-5xl mx-auto"
         >
           {/* Outer card — dark, rounded, subtle border */}
           <div
