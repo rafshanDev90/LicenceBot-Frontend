@@ -1,16 +1,17 @@
 "use client";
 
 import { useState, useEffect } from "react";
+import { useRouter } from "next/navigation";
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Search, Package, ShoppingCart, Tag, Loader2, AlertCircle } from "lucide-react";
-import Link from "next/link";
 import { useCartStore } from "@/lib/cart-store";
 import { fetchLicenseProducts, LicenseProduct } from "@/lib/api/license-products";
 
 export function ProductsClient() {
+  const router = useRouter();
   const [search, setSearch] = useState("");
   const [addingToCart, setAddingToCart] = useState<string | null>(null);
   const [products, setProducts] = useState<LicenseProduct[]>([]);
@@ -52,7 +53,8 @@ export function ProductsClient() {
     return Math.round(((regular - sale) / regular) * 100);
   };
 
-  const handleAddToCart = async (product: LicenseProduct) => {
+  const handleAddToCart = async (e: React.MouseEvent, product: LicenseProduct) => {
+    e.stopPropagation();
     setAddingToCart(product.id);
     
     // Simulate API delay for UX
@@ -118,7 +120,11 @@ export function ProductsClient() {
               const inStock = product.stock_count > 0;
 
               return (
-                <Card key={product.id} className="group overflow-hidden hover:shadow-glow transition-all duration-300 border-border bg-card">
+                <Card 
+                  key={product.id} 
+                  className="group overflow-hidden hover:shadow-glow transition-all duration-300 border-border bg-card cursor-pointer"
+                  onClick={() => router.push(`/store/${product.id}`)}
+                >
                   {/* Image */}
                   <div className="relative aspect-[4/3] bg-muted/50 border-b border-border overflow-hidden">
                     {product.image_url ? (
@@ -134,12 +140,12 @@ export function ProductsClient() {
                       </div>
                     )}
                     {discount && (
-                      <Badge className="absolute top-3 right-3 bg-primary text-primary-foreground font-bold border-0">
+                      <Badge className="absolute top-3 right-3 bg-primary text-primary-foreground font-bold border-0 pointer-events-none">
                         -{discount}%
                       </Badge>
                     )}
                     {!inStock && (
-                      <div className="absolute inset-0 bg-background/80 backdrop-blur-sm flex items-center justify-center">
+                      <div className="absolute inset-0 bg-background/80 backdrop-blur-sm flex items-center justify-center pointer-events-none">
                         <Badge variant="secondary" className="px-4 py-1 text-sm border-border">Out of Stock</Badge>
                       </div>
                     )}
@@ -147,7 +153,7 @@ export function ProductsClient() {
 
                   <CardContent className="p-5 space-y-4">
                     {/* Type badge */}
-                    <div className="flex items-center gap-2">
+                    <div className="flex items-center gap-2 pointer-events-none">
                       <Badge variant="outline" className="text-[10px] bg-primary/5 text-primary border-primary/20">
                         <Tag className="w-2.5 h-2.5 mr-1" />
                         {product.product_type}
@@ -159,7 +165,7 @@ export function ProductsClient() {
                       )}
                     </div>
 
-                    <div>
+                    <div className="pointer-events-none">
                       <h3 className="font-semibold text-foreground line-clamp-2 leading-tight group-hover:text-primary transition-colors">
                         {product.name}
                       </h3>
@@ -171,7 +177,7 @@ export function ProductsClient() {
                     </div>
 
                     {/* Price */}
-                    <div className="flex items-baseline gap-2 pt-2 border-t border-border/50">
+                    <div className="flex items-baseline gap-2 pt-2 border-t border-border/50 pointer-events-none">
                       {displayPrice != null ? (
                         <>
                           <span className="text-xl font-bold text-foreground">
@@ -189,7 +195,7 @@ export function ProductsClient() {
                     </div>
 
                     {/* Stock & sold */}
-                    <div className="flex items-center justify-between text-xs font-medium">
+                    <div className="flex items-center justify-between text-xs font-medium pointer-events-none">
                       <span className={inStock ? "text-success" : "text-muted-foreground"}>
                         {inStock ? `${product.stock_count} in stock` : "Unavailable"}
                       </span>
@@ -198,12 +204,12 @@ export function ProductsClient() {
                       )}
                     </div>
 
-                    <div className="flex gap-2">
+                    <div className="flex gap-2" onClick={(e) => e.stopPropagation()}>
                       <Button 
                         size="sm" 
                         className={`flex-1 ${inStock ? "" : "opacity-50 grayscale"}`}
                         disabled={!inStock || addingToCart === product.id}
-                        onClick={() => handleAddToCart(product)}
+                        onClick={(e) => handleAddToCart(e, product)}
                       >
                         {addingToCart === product.id ? (
                           "Adding..."
@@ -212,23 +218,6 @@ export function ProductsClient() {
                             <ShoppingCart className="w-4 h-4 mr-2" />
                             {isInCart(product.id) ? "In Cart" : "Add to Cart"}
                           </>
-                        )}
-                      </Button>
-                      <Button 
-                        size="sm" 
-                        variant="outline"
-                        className={`flex-1 ${inStock ? "" : "opacity-50 grayscale"}`}
-                        disabled={!inStock} 
-                        asChild={inStock}
-                      >
-                        {inStock ? (
-                          <Link href={`/store/${product.id}`}>
-                            View Details
-                          </Link>
-                        ) : (
-                          <span>
-                            Sold Out
-                          </span>
                         )}
                       </Button>
                     </div>
