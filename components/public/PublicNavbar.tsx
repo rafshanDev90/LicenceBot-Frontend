@@ -29,7 +29,7 @@ interface NavItem {
 
 const navItems: NavItem[] = [
   { label: "Home", path: "/" },
-  { label: "Products", path: "/products" },
+  // { label: "Products", path: "/products" }, // Temporarily disabled
   { label: "Check Key", path: "/check-key" },
   {
     label: "Solutions",
