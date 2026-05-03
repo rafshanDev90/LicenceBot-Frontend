@@ -5,6 +5,8 @@ import { PublicFooter } from "@/components/public/PublicFooter";
 import { mockProducts } from "@/lib/store-data";
 import { ProductDetailClient } from "@/components/store/ProductDetailClient";
 import { LicenseProduct } from "@/lib/api/license-products";
+import { JsonLd } from "@/components/seo/JsonLd";
+import { BreadcrumbSchema } from "@/components/seo/BreadcrumbSchema";
 
 /**
  * Helper to map mock products to the LicenseProduct interface
@@ -52,20 +54,50 @@ export default function ProductDetailPage({ params }: { params: { id: string } }
 
   const product = mapMockToLicenseProduct(rawProduct);
 
-  return (
-    <main className="relative min-h-screen bg-background overflow-hidden flex flex-col">
-      <PublicNavbar />
-      
-      <div className="flex-1 pt-32 pb-24">
-        {/* Decorative background */}
-        <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full h-[500px] bg-gradient-to-b from-primary/5 to-transparent -z-10" />
-        
-        <div className="max-w-7xl mx-auto px-4 sm:px-6">
-          <ProductDetailClient product={product} />
-        </div>
-      </div>
+  const productJsonLd = {
+    '@context': 'https://schema.org',
+    '@type': 'Product',
+    name: product.name,
+    description: product.short_description,
+    image: product.image_url,
+    sku: product.id,
+    offers: {
+      '@type': 'Offer',
+      price: product.sale_price ?? product.regular_price,
+      priceCurrency: 'USD',
+      availability: product.stock_count > 0 ? 'https://schema.org/InStock' : 'https://schema.org/OutOfStock',
+      url: `https://licencebot.com/store/${product.id}`,
+    },
+    brand: {
+      '@type': 'Brand',
+      name: 'LicenceBot',
+    },
+  };
 
-      <PublicFooter />
-    </main>
+  const breadcrumbItems = [
+    { name: 'Home', item: 'https://licencebot.com' },
+    { name: 'Store', item: 'https://licencebot.com/store' },
+    { name: product.name, item: `https://licencebot.com/store/${product.id}` },
+  ];
+
+  return (
+    <>
+      <JsonLd data={productJsonLd} />
+      <BreadcrumbSchema items={breadcrumbItems} />
+      <main className="relative min-h-screen bg-background overflow-hidden flex flex-col">
+        <PublicNavbar />
+        
+        <div className="flex-1 pt-32 pb-24">
+          {/* Decorative background */}
+          <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full h-[500px] bg-gradient-to-b from-primary/5 to-transparent -z-10" />
+          
+          <div className="max-w-7xl mx-auto px-4 sm:px-6">
+            <ProductDetailClient product={product} />
+          </div>
+        </div>
+
+        <PublicFooter />
+      </main>
+    </>
   );
 }

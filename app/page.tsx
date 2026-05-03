@@ -11,6 +11,7 @@ import { TestimonialsSection } from "@/components/public/TestimonialsSection";
 import { PricingTeaser } from "@/components/public/PricingTeaser";
 import { FAQSection } from "@/components/public/FAQSection";
 import { CTABanner } from "@/components/public/CTABanner";
+import { JsonLd } from "@/components/seo/JsonLd";
 
 export const metadata: Metadata = {
   title: "LicenceBot - E-commerce Intelligence Platform",
@@ -37,22 +38,38 @@ export const metadata: Metadata = {
 };
 
 export default function Home() {
+  const websiteJsonLd = {
+    '@context': 'https://schema.org',
+    '@type': 'WebSite',
+    name: 'LicenceBot',
+    url: 'https://licencebot.com',
+    description: 'Manage all your e-commerce stores in one place with LicenceBot. Auto license delivery, analytics dashboard, and enterprise-grade security.',
+    potentialAction: {
+      '@type': 'SearchAction',
+      target: 'https://licencebot.com/search?q={search_term_string}',
+      'query-input': 'required name=search_term_string',
+    },
+  };
+
   return (
-    <div className="flex min-h-screen flex-col pt-20">
-      <PublicNavbar />
-      <main className="flex-1">
-        <HeroSection />
-        <TrustedBySection />
-        <HowItWorksMini />
-        <PlatformOverview />
-        <IntegrationsStrip />
-        <StatsBar />
-        <TestimonialsSection />
-        <PricingTeaser />
-        <FAQSection />
-        <CTABanner />
-      </main>
-      <PublicFooter />
-    </div>
+    <>
+      <JsonLd data={websiteJsonLd} />
+      <div className="flex min-h-screen flex-col pt-20">
+        <PublicNavbar />
+        <main className="flex-1">
+          <HeroSection />
+          <TrustedBySection />
+          <HowItWorksMini />
+          <PlatformOverview />
+          <IntegrationsStrip />
+          <StatsBar />
+          <TestimonialsSection />
+          <PricingTeaser />
+          <FAQSection />
+          <CTABanner />
+        </main>
+        <PublicFooter />
+      </div>
+    </>
   );
 }
