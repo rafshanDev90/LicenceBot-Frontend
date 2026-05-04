@@ -159,8 +159,8 @@ export function ContactClient() {
 
             {[
               { icon: Mail, label: "Email Support", value: "support@licencebot.com", desc: "For technical issues & help" },
-              { icon: Phone, label: "Sales & Inquiries", value: "+44 123 456 7890", desc: "Mon-Fri, 9am - 6pm GMT" },
-              { icon: MapPin, label: "Our Office", value: "London, United Kingdom", desc: "Global Operations Center" },
+              { icon: Phone, label: "Sales & Inquiries", value: "+44 7577 321476", desc: "Mon-Fri, 9am - 6pm GMT" },
+              { icon: MapPin, label: "Our Office", value: "27 Old Gloucester Street, London, United Kingdom, WC1N 3AX", desc: "Global Operations Center" },
             ].map(({ icon: Icon, label, value, desc }) => (
               <Card key={label} className="border-border/50 bg-card/40 backdrop-blur-sm hover:border-primary/30 transition-all duration-300 group">
                 <CardContent className="p-6 flex items-start gap-5">
