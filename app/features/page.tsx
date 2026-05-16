@@ -1,4 +1,5 @@
 import { Metadata } from "next";
+import Link from 'next/link';
 import { PageHeader } from "@/components/public/PageHeader";
 import { FeaturesClient } from "@/components/public/FeaturesClient";
 import { PublicNavbar } from "@/components/public/PublicNavbar";
@@ -49,12 +50,19 @@ export default function FeaturesPage() {
             </p>
 
             <div className="mt-10 flex items-center justify-center gap-4">
-              <button className="flex items-center gap-2 rounded-lg bg-emerald-400 px-6 py-3 text-sm font-semibold text-slate-950 transition-all hover:bg-emerald-300">
-                Start Free Trial <span aria-hidden="true">→</span>
-              </button>
-              <button className="rounded-lg border border-slate-800 bg-slate-950/50 px-6 py-3 text-sm font-semibold text-white transition-all hover:bg-slate-900">
-                Watch Demo
-              </button>
+               <Link 
+                 href="https://app.licencebot.com/auth" 
+                 className="inline-flex items-center gap-2 rounded-lg bg-emerald-400 px-6 py-3 text-sm font-semibold text-slate-950 transition-all hover:bg-emerald-300"
+               >
+                 Start Free Trial <span aria-hidden="true">→</span>
+               </Link>
+
+              <Link 
+                 href="https://app.licencebot.com/auth" 
+                 className="inline-flex rounded-lg border border-slate-800 bg-slate-950/50 px-6 py-3 text-sm font-semibold text-white transition-all hover:bg-slate-900"
+               >
+                 Watch Demo
+               </Link>
             </div>
 
             <div className="mt-20 flex flex-wrap justify-center gap-3">

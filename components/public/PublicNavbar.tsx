@@ -340,9 +340,12 @@ export function PublicNavbar() {
             <Button variant="ghost" size="sm" asChild>
               <Link href="https://app.licencebot.com/auth">Login</Link>
             </Button>
-            <Button className="h-10 px-6 rounded-xl font-bold glass-effect-primary shadow-glow hover:scale-105 transition-all" asChild>
-              <Link href="https://app.licencebot.com/auth">Start Free Trial</Link>
-            </Button>
+             <Link 
+               href="https://app.licencebot.com/auth" 
+               className="relative z-[70] inline-flex items-center justify-center h-12 px-6 rounded-xl font-bold bg-emerald-400 text-slate-950 transition-all hover:bg-emerald-300 hover:scale-105 active:scale-95 cursor-pointer shadow-md"
+             >
+               Start Free Trial <span aria-hidden="true" className="ml-2">→</span>
+             </Link>
           </div>
 
           <button
