@@ -8,6 +8,9 @@ import { JsonLd } from "@/components/seo/JsonLd";
 export const metadata: Metadata = {
   title: 'LicenceBot E-commerce Platform for Automated Key Delivery',
   description: 'LicenceBot is an e-commerce intelligence platform for automated key delivery, sales, and secure license management.',
+  verification: {
+    google: 'UUtJZmDdxZhBpq0ah9gGCeepRBGMbb4her1tzd9QMw4',
+  },
 };
 
 export default function RootLayout({
