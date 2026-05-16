@@ -6,8 +6,8 @@ import { cn } from "@/lib/utils";
 import { JsonLd } from "@/components/seo/JsonLd";
 
 export const metadata: Metadata = {
-  title: 'LicenceBot - E-commerce Intelligence Platform',
-  description: 'Manage all your e-commerce stores in one place with LicenceBot. Auto license delivery, analytics dashboard, and enterprise-grade security.',
+  title: 'LicenceBot E-commerce Platform for Automated Key Delivery',
+  description: 'LicenceBot is an e-commerce intelligence platform for automated key delivery, sales, and secure license management.',
 };
 
 export default function RootLayout({
@@ -21,7 +21,7 @@ export default function RootLayout({
     name: 'LicenceBot',
     url: 'https://licencebot.com',
     logo: 'https://licencebot.com/logo.png',
-    description: 'Manage all your e-commerce stores in one place with LicenceBot. Auto license delivery, analytics dashboard, and enterprise-grade security.',
+    description: 'LicenceBot is an e-commerce intelligence platform for automated key delivery, sales, and secure license management.',
     sameAs: [
       'https://t.me/Licencebotadmin',
       'https://www.facebook.com/licencebot/',

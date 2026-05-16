@@ -7,14 +7,15 @@ import { CTABanner } from "@/components/public/CTABanner";
 import { PlayCircle } from "lucide-react";
 
 export const metadata: Metadata = {
-  title: "Interactive Demo | LicenceBot",
-  description: "Explore all modules with real sample data. See how analytics, SEO, email marketing, and licence management work in action. No signup required.",
+  title: "Interactive Demo of LicenceBot Platform",
+  description: "Interactive demo of LicenceBot platform shows automated key delivery, license system integration, and digital product management in real time.",
+  keywords: ["interactive demo", "licencebot platform", "key delivery demo", "license system integration", "digital product demo"],
   alternates: {
     canonical: "https://licencebot.com/demo",
   },
   openGraph: {
-    title: "Interactive Demo | LicenceBot",
-    description: "Explore all modules with real sample data. See how analytics, SEO, email marketing, and licence management work in action. No signup required.",
+    title: "Interactive Demo of LicenceBot Platform",
+    description: "Interactive demo of LicenceBot platform shows automated key delivery, license system integration, and digital product management in real time.",
     url: "https://licencebot.com/demo",
     type: "website",
   },

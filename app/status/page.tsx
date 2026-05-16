@@ -5,11 +5,16 @@ import { CheckCircle, Circle, Clock, Shield, Server, Database, Globe, Zap, Alert
 import Link from "next/link";
 
 export const metadata: Metadata = {
-  title: "System Status | LicenceBot",
-  description: "Check the current operational status and historical uptime of all LicenceBot services and APIs.",
+  title: "System Status and Uptime Monitoring Dashboard",
+  description: "System status and uptime monitoring dashboard shows real-time service performance, global infrastructure status, and historical uptime data.",
+  keywords: ["system status", "uptime monitoring", "service performance", "infrastructure status", "licencebot status"],
+  alternates: {
+    canonical: "https://licencebot.com/status",
+  },
   openGraph: {
-    title: "System Status | LicenceBot",
-    description: "Real-time status of LicenceBot services.",
+    title: "System Status and Uptime Monitoring Dashboard",
+    description: "System status and uptime monitoring dashboard shows real-time service performance, global infrastructure status, and historical uptime data.",
+    url: "https://licencebot.com/status",
     type: "website",
   },
 };

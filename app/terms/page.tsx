@@ -16,11 +16,16 @@ const IconMap = {
 };
 
 export const metadata: Metadata = {
-  title: "Terms of Service | LicenceBot - Legal Usage & Agreements",
-  description: "Read our Terms of Service to understand your rights, responsibilities, and the legal framework for using the LicenceBot platform.",
+  title: "Terms of Service for Platform Usage Agreement",
+  description: "Terms of service define platform usage rules, responsibilities, acceptable use, license key management, and limitation of liability for all users.",
+  keywords: ["terms of service", "platform usage", "license key management", "acceptable use", "legal agreement"],
+  alternates: {
+    canonical: "https://licencebot.com/terms",
+  },
   openGraph: {
-    title: "Terms of Service | LicenceBot",
-    description: "Legal terms and conditions for LicenceBot services.",
+    title: "Terms of Service for Platform Usage Agreement",
+    description: "Terms of service define platform usage rules, responsibilities, acceptable use, license key management, and limitation of liability for all users.",
+    url: "https://licencebot.com/terms",
     type: "website",
   },
 };

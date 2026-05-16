@@ -5,11 +5,16 @@ import { PublicFooter } from "@/components/public/PublicFooter";
 import { RotateCcw, BoxSelect, ShieldX, CheckSquare, CreditCard, Mail } from "lucide-react";
 
 export const metadata: Metadata = {
-  title: "Refund Policy | LicenceBot",
-  description: "Read our straightforward and transparent refund policies for subscription plans and licence key purchases.",
+  title: "Refund Policy for Subscription and License Keys",
+  description: "Refund policy for subscription and license keys explains 14 day guarantee, refund terms, and rules for digital key purchases and billing cycles.",
+  keywords: ["refund policy", "subscription refund", "license key refund", "14 day guarantee", "refund terms"],
+  alternates: {
+    canonical: "https://licencebot.com/refund-policy",
+  },
   openGraph: {
-    title: "Refund Policy | LicenceBot",
-    description: "Our policies and procedures for requesting a refund.",
+    title: "Refund Policy for Subscription and License Keys",
+    description: "Refund policy for subscription and license keys explains 14 day guarantee, refund terms, and rules for digital key purchases and billing cycles.",
+    url: "https://licencebot.com/refund-policy",
     type: "website",
   },
 };

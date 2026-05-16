@@ -11,11 +11,16 @@ import {
 } from "lucide-react";
 
 export const metadata: Metadata = {
-  title: "About Us | LicenceBot",
-  description: "Learn about LicenceBot's mission to simplify digital product distribution, our core values, and the team behind the platform.",
+  title: "Digital Commerce License Automation Platform",
+  description: "Digital commerce license automation platform simplifies key delivery, reduces errors, and scales digital product sales with a reliable system.",
+  keywords: ["license automation platform", "digital commerce", "key delivery automation", "digital product sales", "licencebot platform"],
+  alternates: {
+    canonical: "https://licencebot.com/about",
+  },
   openGraph: {
-    title: "About Us | LicenceBot",
-    description: "Powering Digital Commerce, One Licence at a Time.",
+    title: "Digital Commerce License Automation Platform",
+    description: "Digital commerce license automation platform simplifies key delivery, reduces errors, and scales digital product sales with a reliable system.",
+    url: "https://licencebot.com/about",
     type: "website",
   },
 };

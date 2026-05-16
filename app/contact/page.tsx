@@ -7,14 +7,15 @@ import { CTABanner } from "@/components/public/CTABanner";
 import { Mail } from "lucide-react";
 
 export const metadata: Metadata = {
-  title: "Contact Us | LicenceBot",
-  description: "Have a question or need technical support? Get in touch with our team via email, phone, or the contact form below.",
+  title: "Get in Touch for Support and Assistance",
+  description: "Get in touch for support and assistance. Send your message and get a response within 24 hours for any questions or help you need.",
+  keywords: ["contact support", "get in touch", "customer assistance", "licencebot help", "support contact"],
   alternates: {
     canonical: "https://licencebot.com/contact",
   },
   openGraph: {
-    title: "Contact Us | LicenceBot",
-    description: "Have a question or need technical support? Get in touch with our team via email, phone, or the contact form below.",
+    title: "Get in Touch for Support and Assistance",
+    description: "Get in touch for support and assistance. Send your message and get a response within 24 hours for any questions or help you need.",
     url: "https://licencebot.com/contact",
     type: "website",
   },

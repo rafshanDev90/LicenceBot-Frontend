@@ -14,14 +14,15 @@ import { CTABanner } from "@/components/public/CTABanner";
 import { JsonLd } from "@/components/seo/JsonLd";
 
 export const metadata: Metadata = {
-  title: "LicenceBot - E-commerce Intelligence Platform",
-  description: "Manage all your e-commerce stores in one place with LicenceBot.",
+  title: "LicenceBot E-commerce Platform for Automated Key Delivery",
+  description: "LicenceBot is an e-commerce intelligence platform for automated key delivery, sales, and secure license management.",
+  keywords: ["automated digital key delivery", "license management", "ecommerce platform", "key delivery automation", "digital product delivery"],
   alternates: {
     canonical: "https://licencebot.com",
   },
   openGraph: {
-    title: "LicenceBot - E-commerce Intelligence Platform",
-    description: "Manage all your e-commerce stores in one place with LicenceBot. Auto license delivery, analytics dashboard, and enterprise-grade security.",
+    title: "LicenceBot E-commerce Platform for Automated Key Delivery",
+    description: "LicenceBot is an e-commerce intelligence platform for automated key delivery, sales, and secure license management.",
     url: "https://licencebot.com",
     siteName: "LicenceBot",
     images: [
@@ -43,7 +44,7 @@ export default function Home() {
     '@type': 'WebSite',
     name: 'LicenceBot',
     url: 'https://licencebot.com',
-    description: 'Manage all your e-commerce stores in one place with LicenceBot. Auto license delivery, analytics dashboard, and enterprise-grade security.',
+    description: 'LicenceBot is an e-commerce intelligence platform for automated key delivery, sales, and secure license management.',
     potentialAction: {
       '@type': 'SearchAction',
       target: 'https://licencebot.com/search?q={search_term_string}',

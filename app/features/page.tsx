@@ -7,14 +7,15 @@ import { CTABanner } from "@/components/public/CTABanner";
 import { Layers, BarChart3, ShoppingBag, Key, Search, MessageSquare, Mail } from "lucide-react";
 
 export const metadata: Metadata = {
-  title: "Features | LicenceBot",
-  description: "Explore the comprehensive features of LicenceBot — analytics, SEO tools, email marketing, live chat, licence management, and more.",
+  title: "LicenceBot Features for Digital Key Delivery",
+  description: "LicenceBot features include automated key delivery, secure license management, fast order processing, and digital product sales automation.",
+  keywords: ["licencebot features", "digital key delivery", "license management", "automated key delivery", "digital product automation"],
   alternates: {
     canonical: "https://licencebot.com/features",
   },
   openGraph: {
-    title: "Features | LicenceBot",
-    description: "Explore the comprehensive features of LicenceBot — analytics, SEO tools, email marketing, live chat, licence management, and more.",
+    title: "LicenceBot Features for Digital Key Delivery",
+    description: "LicenceBot features include automated key delivery, secure license management, fast order processing, and digital product sales automation.",
     url: "https://licencebot.com/features",
     type: "website",
   },

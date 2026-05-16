@@ -5,14 +5,15 @@ import { PublicFooter } from "@/components/public/PublicFooter";
 import { CTABanner } from "@/components/public/CTABanner";
 
 export const metadata: Metadata = {
-  title: "Documentation | LicenceBot",
-  description: "Comprehensive guides, API documentation, and tutorials for setting up and scaling your automated license delivery with LicenceBot.",
+  title: "Platform Setup Guide for Step by Step Configuration",
+  description: "Platform setup guide helps you with step by step configuration, setup process, and mastering all features of the system easily.",
+  keywords: ["platform setup guide", "configuration guide", "step by step setup", "licencebot guide", "platform documentation"],
   alternates: {
     canonical: "https://licencebot.com/docs",
   },
   openGraph: {
-    title: "Documentation | LicenceBot",
-    description: "Comprehensive guides, API documentation, and tutorials for setting up and scaling your automated license delivery with LicenceBot.",
+    title: "Platform Setup Guide for Step by Step Configuration",
+    description: "Platform setup guide helps you with step by step configuration, setup process, and mastering all features of the system easily.",
     url: "https://licencebot.com/docs",
     type: "website",
   },

@@ -5,11 +5,16 @@ import { PublicFooter } from "@/components/public/PublicFooter";
 import { Cookie, MousePointerClick, ShieldAlert, SlidersHorizontal, Settings } from "lucide-react";
 
 export const metadata: Metadata = {
-  title: "Cookie Policy | LicenceBot",
-  description: "Learn how LicenceBot uses cookies to improve your experience and how you can manage your preferences.",
+  title: "Cookie Policy for Website and Platform Usage",
+  description: "Cookie policy explains essential, functional, and analytics cookies used to improve security, preferences, and platform performance for better experience.",
+  keywords: ["cookie policy", "website cookies", "analytics cookies", "functional cookies", "cookie preferences"],
+  alternates: {
+    canonical: "https://licencebot.com/cookie-policy",
+  },
   openGraph: {
-    title: "Cookie Policy | LicenceBot",
-    description: "Detailed information about how we use cookies.",
+    title: "Cookie Policy for Website and Platform Usage",
+    description: "Cookie policy explains essential, functional, and analytics cookies used to improve security, preferences, and platform performance for better experience.",
+    url: "https://licencebot.com/cookie-policy",
     type: "website",
   },
 };

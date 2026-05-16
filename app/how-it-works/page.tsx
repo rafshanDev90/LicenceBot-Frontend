@@ -7,14 +7,15 @@ import { CTABanner } from "@/components/public/CTABanner";
 import { Zap } from "lucide-react";
 
 export const metadata: Metadata = {
-  title: "How It Works | LicenceBot",
-  description: "Learn how to automate your digital product delivery in 4 simple steps. Connect your store, fund your wallet, upload keys, and let LicenceBot handle the rest.",
+  title: "Automated Licence Delivery How It Works Guide",
+  description: "Automated Licence delivery how it works guide explains the order process, instant key delivery, and digital product system for fast automated licence delivery.",
+  keywords: ["automated licence delivery", "how it works", "instant key delivery", "digital product delivery", "automated delivery guide"],
   alternates: {
     canonical: "https://licencebot.com/how-it-works",
   },
   openGraph: {
-    title: "How It Works | LicenceBot",
-    description: "Learn how to automate your digital product delivery in 4 simple steps. Connect your store, fund your wallet, upload keys, and let LicenceBot handle the rest.",
+    title: "Automated Licence Delivery How It Works Guide",
+    description: "Automated Licence delivery how it works guide explains the order process, instant key delivery, and digital product system for fast automated licence delivery.",
     url: "https://licencebot.com/how-it-works",
     type: "website",
   },

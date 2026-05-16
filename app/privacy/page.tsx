@@ -5,11 +5,16 @@ import { PublicFooter } from "@/components/public/PublicFooter";
 import { Lock, ShieldCheck, Database, Globe, Mail, Clock, Eye, Scale, FileText } from "lucide-react";
 
 export const metadata: Metadata = {
-  title: "Privacy Policy | LicenceBot - Your Data Security is Our Priority",
-  description: "Learn how LicenceBot collect, processes, and protects your personal and store data. Our privacy policy is designed with GDPR compliance and transparency in mind.",
+  title: "Privacy Policy for Data Collection and Protection",
+  description: "Privacy policy explains data collection, usage, and protection including account details, store data, license keys, and usage analytics securely.",
+  keywords: ["privacy policy", "data collection", "data protection", "user privacy", "data security"],
+  alternates: {
+    canonical: "https://licencebot.com/privacy",
+  },
   openGraph: {
-    title: "Privacy Policy | LicenceBot",
-    description: "Your data security and privacy details for using LicenceBot.",
+    title: "Privacy Policy for Data Collection and Protection",
+    description: "Privacy policy explains data collection, usage, and protection including account details, store data, license keys, and usage analytics securely.",
+    url: "https://licencebot.com/privacy",
     type: "website",
   },
 };

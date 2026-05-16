@@ -7,14 +7,15 @@ import { CTABanner } from "@/components/public/CTABanner";
 import { Network } from "lucide-react";
 
 export const metadata: Metadata = {
-  title: "Integrations | LicenceBot",
-  description: "Seamlessly integrate LicenceBot with your e-commerce platforms, messaging apps, analytics tools, and custom workflows using our APIs and Webhooks.",
+  title: "License System Integration for LicenceBot",
+  description: "License system integration for LicenceBot platform connects ecommerce tools, automates key delivery, and streamlines digital product management.",
+  keywords: ["license system integration", "ecommerce integration", "key delivery automation", "digital product management", "licencebot integration"],
   alternates: {
     canonical: "https://licencebot.com/integrations",
   },
   openGraph: {
-    title: "Integrations | LicenceBot",
-    description: "Seamlessly integrate LicenceBot with your e-commerce platforms, messaging apps, analytics tools, and custom workflows using our APIs and Webhooks.",
+    title: "License System Integration for LicenceBot",
+    description: "License system integration for LicenceBot platform connects ecommerce tools, automates key delivery, and streamlines digital product management.",
     url: "https://licencebot.com/integrations",
     type: "website",
   },

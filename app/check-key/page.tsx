@@ -7,14 +7,15 @@ import { CTABanner } from "@/components/public/CTABanner";
 import { KeyRound } from "lucide-react";
 
 export const metadata: Metadata = {
-  title: "Key Checker | LicenceBot",
-  description: "Instantly verify Microsoft product keys, check activation status, extract CIDs, redeem keys, and verify Office 365 accounts with our free tool.",
+  title: "Key Checker Tool for License Keys | LicenceBot",
+  description: "Key Checker tool to verify license keys instantly. Validate, manage, and secure digital product keys with a fast and reliable system.",
+  keywords: ["key checker", "license key verification", "product key checker", "digital key validation", "key checker tool"],
   alternates: {
     canonical: "https://licencebot.com/check-key",
   },
   openGraph: {
-    title: "Key Checker | LicenceBot",
-    description: "Instantly verify Microsoft product keys, check activation status, extract CIDs, redeem keys, and verify Office 365 accounts with our free tool.",
+    title: "Key Checker Tool for License Keys | LicenceBot",
+    description: "Key Checker tool to verify license keys instantly. Validate, manage, and secure digital product keys with a fast and reliable system.",
     url: "https://licencebot.com/check-key",
     type: "website",
   },

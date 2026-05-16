@@ -347,6 +347,21 @@ export function FeaturesClient() {
     }
   }, []);
 
+  useEffect(() => {
+    const handleHashChange = () => {
+      const hash = window.location.hash;
+      if (hash) {
+        const id = hash.replace("#", "");
+        setTimeout(() => {
+          const el = document.getElementById(id);
+          if (el) el.scrollIntoView({ behavior: "smooth", block: "start" });
+        }, 300);
+      }
+    };
+    window.addEventListener("hashchange", handleHashChange);
+    return () => window.removeEventListener("hashchange", handleHashChange);
+  }, []);
+
   const filtered = activeCategory === "all"
     ? modules
     : modules.filter((m) => m.category === activeCategory);
@@ -437,6 +452,9 @@ export function FeaturesClient() {
                   className="scroll-mt-32"
                 >
                   <Card className="overflow-hidden border-slate-800 bg-[#0b1120] hover:border-slate-700 transition-colors">
+                    {mod.id === "email-marketing" && <div id="engage" />}
+                    {mod.id === "seo-tools" && <div id="seo-audit" />}
+                    {mod.id === "multi-store" && <div id="multistore" />}
                     <CardContent className="p-0">
                       <div className={cn(
                         "grid grid-cols-1 lg:grid-cols-12 min-h-[260px]",

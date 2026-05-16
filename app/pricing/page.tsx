@@ -7,14 +7,15 @@ import { CTABanner } from "@/components/public/CTABanner";
 import { Sparkles } from "lucide-react";
 
 export const metadata: Metadata = {
-  title: "Pricing | LicenceBot",
-  description: "Simple, transparent pricing for digital merchants. Start with our 14-day free trial on any plan. No credit card required.",
+  title: "Simple Transparent Pricing Plans for Businesses",
+  description: "Simple transparent pricing plans with a 14 day free trial, flexible upgrades, and scalable options to grow your business easily.",
+  keywords: ["pricing plans", "transparent pricing", "14 day free trial", "business pricing", "scalable plans"],
   alternates: {
     canonical: "https://licencebot.com/pricing",
   },
   openGraph: {
-    title: "Pricing | LicenceBot",
-    description: "Simple, transparent pricing for digital merchants. Start with our 14-day free trial on any plan. No credit card required.",
+    title: "Simple Transparent Pricing Plans for Businesses",
+    description: "Simple transparent pricing plans with a 14 day free trial, flexible upgrades, and scalable options to grow your business easily.",
     url: "https://licencebot.com/pricing",
     type: "website",
   },

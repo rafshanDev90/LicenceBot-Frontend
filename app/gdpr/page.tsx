@@ -5,11 +5,16 @@ import { PublicFooter } from "@/components/public/PublicFooter";
 import { ShieldCheck, Scale, FileText, DatabaseZap, Unlock, Mail, Fingerprint } from "lucide-react";
 
 export const metadata: Metadata = {
-  title: "GDPR Compliance | LicenceBot",
-  description: "LicenceBot is fully committed to GDPR compliance. Read our extensive policy on how we gather, protect, and handle personal data under the EU regulation.",
+  title: "GDPR Compliance Policy for Data Protection",
+  description: "GDPR compliance policy explains how user data is processed securely, user rights, legal basis, and data protection measures under EU regulations.",
+  keywords: ["gdpr compliance", "data protection", "user privacy", "eu regulations", "data security policy"],
+  alternates: {
+    canonical: "https://licencebot.com/gdpr",
+  },
   openGraph: {
-    title: "GDPR Compliance | LicenceBot",
-    description: "Our commitment to EU privacy regulations and data rights.",
+    title: "GDPR Compliance Policy for Data Protection",
+    description: "GDPR compliance policy explains how user data is processed securely, user rights, legal basis, and data protection measures under EU regulations.",
+    url: "https://licencebot.com/gdpr",
     type: "website",
   },
 };
